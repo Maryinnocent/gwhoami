@@ -1,7 +1,9 @@
+import { Menu, MenuItem, MenuDivider,MenuHeader } from "@szhsin/react-menu";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { MainContext } from "../../util/maincontext";
 import MyLocalStorage from "../../util/mylocalStorage";
+import '@szhsin/react-menu/dist/core.css';
 
 const TopHeader = React.memo(() =>{
     const history = useHistory();
@@ -11,6 +13,16 @@ const TopHeader = React.memo(() =>{
         setAuthenticated(false);
         history.push('/home');
     }
+    const menuClassName = ({ state }) =>
+    `box-border absolute z-50 pb-3 bg-white p-1.5 text-gray-600 border rounded-md shadow-lg select-none focus:outline-none min-w-[15rem] ${
+        state === "closed" && "hidden"
+    } ${state === "opening" && "animate-fadeIn"} ${
+        state === "closing" && "animate-fadeOut"
+    }`;
+    const menuItemClassName = ({ hover, disabled, submenu }) =>
+    `focus:outline-none ${
+        hover && "text-sky-b bg-white"
+    }`;
     return (
         <header className="z-10 bg-white shadow-md dark:bg-gray-800 flex justify-center">
             <div className="container flex items-center justify-between px-6">
@@ -22,10 +34,45 @@ const TopHeader = React.memo(() =>{
                         <i className='bx bx-bell text-2xl text-dodge-b'></i>
                         <span aria-hidden="true" className="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
                     </div>
-                    <button className="align-middle rounded-full focus:shadow-outline-purple focus:outline-none" onClick={logout}>
-                        {/* <img className="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;s=aa3a807e1bbdfd4364d1f449eaa96d82" alt="" aria-hidden="true"/> */}
-                        <i className='bx bxs-user-circle text-4xl text-dodge-b'></i>
-                    </button>
+                    <Menu
+                        direction="bottom"
+                        position="anchor"
+                        viewScroll="auto"
+                        arrow
+                        offsetX={-190}
+                        offsetY={-3}
+                        transition={true}
+                        menuClassName={menuClassName}
+                        menuButton={
+                            <button className="focus:shadow-outline-purple focus:outline-none">
+                                <div className="flex justify-center w-9 h-9 items-center bg-sky-b rounded-full">
+                                    <span className="font-bold text-xs text-white">AD</span>
+                                </div>
+                            </button>
+                        }
+                    >
+                        <MenuHeader className="px-5 pt-4 pb-2 flex flex-col items-start text-lg">
+                            <span>Suman Savio</span>
+                            <span></span>
+                        </MenuHeader>
+                        <MenuDivider />
+                        <MenuItem className={menuItemClassName} style={{backgroundColor: "#FFF"}}>
+                            <div className="px-5 py-2 flex justify-start items-center">
+                                <i className='bx bxs-user-circle mr-2 text-2xl'></i><span>View Profile</span>
+                            </div>
+                        </MenuItem>
+                        <MenuItem className={menuItemClassName} style={{backgroundColor: "#FFF"}}>
+                            <div className="px-5 py-2 flex justify-start items-center">
+                                <i className='bx bxs-key mr-2 text-2xl'></i><span>Change Password</span>
+                            </div>
+                        </MenuItem>
+                        <MenuDivider />
+                        <MenuItem  className={menuItemClassName} onClick={logout} style={{backgroundColor: "#FFF", borderBottomRightRadius: "5px", borderBottomLeftRadius: "5px"}}>
+                            <div className="px-5 pt-2 pb-4 flex justify-start items-center">
+                                <i className='bx bxs-log-out-circle mr-2 text-2xl'></i><span>Logout</span>
+                            </div>
+                        </MenuItem>
+                    </Menu>
                 </div>
             </div>
         </header>

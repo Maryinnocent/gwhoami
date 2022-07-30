@@ -8,13 +8,14 @@ import 'rc-datepicker/lib/style.css';
 import ReactFlagsSelect, { In, Us } from 'react-flags-select';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
-export const InputText = React.memo(({styleClass, formKey, formRef, uiRefresh, label, placeholder, required=""}) => {
+export const InputText = React.memo(({styleClass, formKey, formRef, uiRefresh, label, placeholder, required="", callback=null}) => {
     const isNotValid = () =>required && formRef.current.isSubmit && !formRef.current[formKey];
     const inValidBorder = ()=>isNotValid() ? ' border-red-500' : '';
     const [, refresh] = useState(-1);
     const setFormVal = (e) => {
         formRef.current[formKey] = e.currentTarget.value;
         refresh(Date.now());
+        if (callback) callback();
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
@@ -153,6 +154,32 @@ export const InputDOB = React.memo(({styleClass, formKey, formRef, ui, label, ca
                 displayFormat="MMMM/DD/YYYY" 
                 showOnInputClick
                 placeholder='DOB'
+                maxDate={new Date()}
+                className={`w-full p-0.5 rounded border ${inValidBorder()}`}
+            />
+            {isNotValid() && <div className='flex justify-start items-center text-red-500 text-xs mt-1'>{required}</div>}
+        </div>
+    );
+});
+
+export const DatePicker = React.memo(({styleClass, formKey, formRef, ui, label, callback = null, code, placeholder="", required="", ID="", dateFormat="MMMM/DD/YYYY"}) => {
+    const isNotValid = () =>required && formRef.current.isSubmit && !formRef.current[formKey];
+    const inValidBorder = ()=>isNotValid() ? 'border-red-500' : 'border-gray-400';
+    const [, refresh] = useState(-1);
+    const setFormVal = (date) => {
+        formRef.current[formKey] = date;
+        if (callback) callback();
+        else refresh(Date.now());
+    }
+    return (
+        <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
+            <label className="text-gray-600 mb-1 required">{label}</label>
+            <DatePickerInput 
+                onChange={date=>setFormVal(date)} 
+                value={formRef.current[formKey]}
+                displayFormat={dateFormat}
+                showOnInputClick
+                placeholder={placeholder}
                 maxDate={new Date()}
                 className={`w-full p-0.5 rounded border ${inValidBorder()}`}
             />

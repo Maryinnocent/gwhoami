@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import NavList from "./navList";
 
 const SideBar = React.memo(() => {
+    const history = useHistory();
     useEffect(()=>{
         let arrows = document.querySelectorAll('.arrow');
         let sidebar = document.querySelector('div.sidebar');
@@ -15,6 +17,11 @@ const SideBar = React.memo(() => {
             sidebar.classList.toggle('close');
         }, false);
     }, []);
+    const goToPage = (e, path) => {
+        e.preventDefault();
+        if (!path) return;
+        history.push(path);
+    }
     return (
         <div className="sidebar">
             <div className="logo-details">
@@ -33,15 +40,15 @@ const SideBar = React.memo(() => {
                     </li>: 
                     <li>
                         <div className="icon_links">
-                            <a href="#/">{itm.icon}<span className="link_name">Category</span></a>
+                            <a href="#/" onClick={e=>goToPage(e, undefined)}>{itm.icon}<span className="link_name">{itm.menu}</span></a>
                             <i className='bx bxs-chevron-down arrow'></i>
                         </div>
                         <ul className="sub-menu">
                             {itm.sub.map((sub, subidx)=>(
                                 <React.Fragment key={sub.name}>
                                 {subidx === 0 ? 
-                                    <li><a href="#/" className="link_name">{sub.name}</a></li> :
-                                    <li><a href="#/">{sub.name}</a></li>
+                                    <li><a href="#/" onClick={e=>goToPage(e, undefined)} className="link_name">{sub.name}</a></li> :
+                                    <li><a href="#/" onClick={e=>goToPage(e, sub.path)}>{sub.name}</a></li>
                                 }
                                 </React.Fragment>
                             ))}

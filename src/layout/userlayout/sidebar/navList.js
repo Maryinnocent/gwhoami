@@ -1,6 +1,6 @@
 const NavList = {
     user: [{
-        menu: 'Dashboard',
+        menu: 'Home',
         icon: <i className="bx bx-grid-alt"></i>,
         sub: [
             {name: 'Home'},
@@ -10,8 +10,9 @@ const NavList = {
         icon: <i className="bx bxs-graduation"></i>,
         sub: [
             {name: 'Education'},
-            {name: 'School'},
-            {name: 'College'}
+            {name: 'School', path:"/user/education/school"},
+            {name: 'College', path:"/user/education/college"},
+            {name: 'Others', path:"/user/education/other"}
         ]
     },{
         menu: 'Settings',
