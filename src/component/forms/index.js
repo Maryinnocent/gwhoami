@@ -333,3 +333,31 @@ export const GroupEmail = React.memo(({styleClass, formKey, formRef, uiRefresh, 
         </div>
     );
 });
+
+export const CountryDropdown = React.memo(({styleClass, passForm, valueKey, ui, label, callback = null, placeholder="", idx, required="" }) => {
+    const isNotValid = () =>!passForm[valueKey];
+    const inValidBorder = ()=>isNotValid() ? 'border rounded border-red-500' : 'border rounded border-gray-400';
+    const [, refresh] = useState(-1);
+    const setFormVal = (code) => {
+        passForm[valueKey] = code;
+        if (callback) callback(idx, passForm);
+        else refresh(Date.now());
+    }
+    return (
+        <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
+            <label className="text-gray-600 mb required">{label}</label>
+            <ReactFlagsSelect
+                className={`${inValidBorder()} w-full`}
+                selected={passForm[valueKey]}
+                onSelect={(code) => setFormVal(code)}
+                countries={["US", "IN"]}
+                placeholder={placeholder}
+                // customLabels={{
+                //     "US": { primary: "United States", secondary: "+1" },
+                //     "IN": { primary: "India", secondary: "+91" },
+                // }}
+            />
+            {isNotValid() && <div className='flex justify-start items-center text-red-500 text-xs mt-1'>{required}</div>}
+        </div>
+    );
+});

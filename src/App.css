@@ -454,3 +454,11 @@ input::-ms-clear {
 .custompanel {
   padding-bottom: 30px !important;
 }
+.invalidyear input {
+  border: 1px solid red;
+}
+
+.react-confirm-alert-overlay { z-index: 99999 !important;}
+.confirm-overlay {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
