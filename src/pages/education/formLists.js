@@ -1,10 +1,9 @@
-import { nanoid } from "nanoid";
-
 export const formList = {
     school: {
-        id: nanoid(),
         schoolName: '',
+        saved: false,
         isSubmit: true,
+        documents: []
         // classes: [
         //     {standard: '', year: '', place: '', country: '', state: '', zipcode: ''}
         // ]

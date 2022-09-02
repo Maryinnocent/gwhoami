@@ -462,3 +462,200 @@ input::-ms-clear {
 .confirm-overlay {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
+
+.my-spinner {
+  -webkit-animation: rotate 2s linear infinite;
+  animation: rotate 2s linear infinite;
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  width: 100px;
+  height: 100px;
+}
+.my-spinner .path {
+  stroke-linecap: round;
+  -webkit-animation: dash 1.5s ease-in-out infinite;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate { 100% { transform: rotate(360deg); } }
+@keyframes dash {
+  0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+}
+.strokecolor {
+  stroke: #1e90ff;
+}
+::-webkit-progress-bar {
+  background-color: #CCC;
+}
+progress[value]::-webkit-progress-value {
+  background: #1e90ff;
+}
+
+/******************************/
+.modal{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 50;
+  display: none;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto; }.modal .modal-dialog{
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  padding: 1.25rem; }.modal .modal-dialog_centered{
+  height: 100%;
+  align-items: center; }.modal .modal-dialog_scrollable{
+  max-height: 100vh; }.modal .modal-dialog_scrollable .modal-content{
+  display: flex;
+  flex-direction: column; }.modal .modal-dialog_scrollable .modal-content .modal-body{
+  overflow-y: auto; }.modal .modal-dialog .modal-content{
+  border-radius: 0px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: rgb(var(--color-foreground) / var(--tw-bg-opacity));
+  --tw-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
+  --tw-shadow-colored: 1px 1px 5px 0 var(--tw-shadow-color);
+  box-shadow: 0 0 #0000, 0 0 #0000, var(--tw-shadow);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }.modal .modal-dialog .modal-content .modal-header{
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+  border-color: rgb(var(--color-divider) / var(--tw-border-opacity));
+  padding: 1.25rem; }.modal .modal-dialog .modal-content .modal-header .close{
+  margin-left: auto;
+  font-size: 1.5rem;
+  line-height: 1; }.modal .modal-dialog .modal-content .modal-header .close:hover{
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity));
+  color: rgb(var(--color-primary) / var(--tw-text-opacity)); }.modal .modal-dialog .modal-content .modal-body{
+  margin: 1.25rem; }.modal .modal-dialog .modal-content .modal-footer{
+  display: flex;
+  flex-shrink: 0;
+  border-top-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity));
+  border-color: rgb(var(--color-divider) / var(--tw-border-opacity));
+  padding: 1.25rem; }.modal.active{
+  display: block; }.modal_aside .modal-dialog{
+  position: relative;
+  margin-right: 0px;
+  height: 100%;
+      width: 320px; }.modal_aside .modal-dialog .modal-content{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0px; }.footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }.menu-icon-only .footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }.menu-wide .footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }[dir="rtl"] .footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }[dir="rtl"].menu-icon-only .footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }[dir="rtl"].menu-wide .footer-bar.modal_aside .modal-dialog .modal-content{
+  left: 0px;
+  right: 0px; }.modal_aside .modal-dialog .modal-content .modal-header {
+          min-height: 5rem;
+        }.modal_aside .modal-dialog .modal-content .modal-body{
+  overflow-y: scroll; }.modal_aside .modal-dialog .modal-content .modal-footer{
+  margin-top: auto; }[dir="rtl"] .modal .modal-dialog .modal-content .modal-header .close{
+  margin-left: 0px;
+  margin-right: auto; }[dir="rtl"] .modal_aside .modal-dialog{
+  margin-right: auto;
+  margin-left: 0px; }[dir="rtl"] .modal_aside .modal-dialog .modal-content{
+  right: auto;
+  left: 0px; }
+
+  :root {
+    --color-primary: 2 132 199;
+  --color-primary-50: 240 249 255;
+  --color-primary-100: 224 242 254;
+  --color-primary-200: 186 230 253;
+  --color-primary-300: 125 211 252;
+  --color-primary-400: 56 189 248;
+  --color-primary-500: 14 165 233;
+  --color-primary-600: 2 132 199;
+  --color-primary-700: 3 105 161;
+  --color-primary-800: 7 89 133;
+  --color-primary-900: 12 74 110;
+
+  /* Gray */
+  --color-gray-50: 249 250 251;
+  --color-gray-100: 243 244 246;
+  --color-gray-200: 229 231 235;
+  --color-gray-300: 209 213 219;
+  --color-gray-400: 156 163 175;
+  --color-gray-500: 107 114 128;
+  --color-gray-600: 75 85 99;
+  --color-gray-700: 55 65 81;
+  --color-gray-800: 31 41 55;
+  --color-gray-900: 17 24 39;
+
+  /* Secondary */
+  --color-secondary: 75 85 99;
+
+  --color-text-normal: var(--color-gray-600);
+  --color-text-muted: var(--color-gray-500);
+  --color-text-highlighted: var(--color-gray-700);
+  --color-text-placeholder: var(--color-gray-400);
+  --color-text-component: 255 255 255;
+
+  --color-divider: var(--color-gray-200);
+  --color-border: var(--color-gray-300);
+
+  --color-background: var(--color-gray-100);
+  --color-foreground: 255 255 255;
+  --color-input: 255 255 255;
+  }
+  .overlay{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 40;
+    --tw-bg-opacity: 1;
+    background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: linear; }.overlay.active{
+    opacity: 0.5; }
+
+  th.asc {
+      border-top: 5px solid orange !important;
+  }
+
+  th.desc {
+    border-bottom: 5px solid rgb(136, 136, 255) !important;
+}
+.btn-red {
+  background-color: #dc2626 !important;
+}
+.btn-red:hover {
+  background-color: #db4848 !important;
+}
+.btn-blue {
+  background-color: #1e90ff !important;
+}
+.btn-blue:hover {
+  background-color: #0382ff !important;
+}
+/****************************/

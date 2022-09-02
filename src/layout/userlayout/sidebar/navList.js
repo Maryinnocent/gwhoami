@@ -1,9 +1,11 @@
+import React from "react";
+
 const NavList = {
     user: [{
         menu: 'Home',
         icon: <i className="bx bx-grid-alt"></i>,
         sub: [
-            {name: 'Home'},
+            {name: 'Home', path:"/user"},
         ]
     },{
         menu: 'Education',

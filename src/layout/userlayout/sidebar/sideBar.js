@@ -33,9 +33,9 @@ const SideBar = React.memo(() => {
                     <React.Fragment key={itm.menu}>
                     {itm.sub.length === 1 ?
                     <li>
-                        <a href="#/">{itm.icon}<span className="link_name">{itm.menu}</span></a>
+                        <a href="#/" onClick={e=>goToPage(e, itm.sub[0].path)}>{itm.icon}<span className="link_name">{itm.menu}</span></a>
                         <ul className="sub-menu blank">
-                            <li><a href="#/" className="link_name">{itm.sub[0].name}</a></li>
+                            <li><a href="#/" onClick={e=>goToPage(e, itm.sub[0].path)} className="link_name">{itm.sub[0].name}</a></li>
                         </ul>
                     </li>: 
                     <li>
