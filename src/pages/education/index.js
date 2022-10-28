@@ -26,14 +26,17 @@ const EducationTabs = React.memo(() => {
                 if (res && res.length === 0) {
                     const newrecord = await apiPostCall('/api/common/common_mutiple_insert', {_list: [{_modal: 'EductionList', _condition: 'new', _data: {userid: MyLocalStorage.getUserId(), schools: [], colleges: [], others: []} }]});
                     pageData.current._id = newrecord.upsertedId;
+                    schoolMenus.current = [...formList.schoolMenu];
                 } else {
                     pageData.current._id = res._id;
                     schoolAddedList.current = res.schools||[];
                     let sm = [...formList.schoolMenu];
                     schoolAddedList.current.map(s=>s.classes.map(c=>c.standard)).map(arr=>arr.forEach(itm=>{
+                        console.log(itm);
                         sm.splice(sm.indexOf(itm), 1);
                     }));
                     schoolMenus.current = [...sm];
+                    
                 }
                 pageData.current.init = true;
                 uiRefresh(Date.now());
