@@ -7,6 +7,11 @@ const userPagePath = [
         exact: true
     },
     {
+        path: '/profile/:tabid',
+        component: lazy(()=>import('../pages/profile/index')),
+        exact: true
+    },
+    {
         path: '/education/:tabid',
         component: lazy(()=>import('../pages/education/index')),
         exact: true

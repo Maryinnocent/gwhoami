@@ -8,6 +8,15 @@ const NavList = {
             {name: 'Home', path:"/user"},
         ]
     },{
+        menu: 'Profile',
+        icon: <i className="bx bxs-graduation"></i>,
+        sub: [
+            {name: 'Profile'},
+            {name: 'General', path:"/user/profile/general"},
+            {name: 'Job', path:"/user/profile/job"},
+            {name: 'Business', path:"/user/profile/business"}
+        ]
+    },{
         menu: 'Education',
         icon: <i className="bx bxs-graduation"></i>,
         sub: [
