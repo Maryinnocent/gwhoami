@@ -130,6 +130,8 @@ const SchoolForm = React.memo(({form, uiRefresh, schoolMenus, alertRef, pageData
         let isNew = typeof arr['saved'] !== 'undefined';
         if (isNew) delete arr['saved'];
         delete arr['isSubmit'];
+        // let params = isNew ? [{_modal: 'EductionList', _condition: 'update',_find: {_id: pageData.current._id}, _data: {$push: {'schools': arr}} }] : 
+        // [{_modal: 'EductionList', _condition: 'update',_find: {_id: pageData.current._id, 'schools.id': arr.id}, _data: {$set: {"schools.$": arr}} }];
         let params = isNew ? [{_modal: 'EductionList', _condition: 'update',_find: {_id: pageData.current._id}, _data: {$push: {'schools': arr}} }] : 
         [{_modal: 'EductionList', _condition: 'update',_find: {_id: pageData.current._id, 'schools.id': arr.id}, _data: {$set: {"schools.$": arr}}, _options: { upsert: false } }];
         (async() => {

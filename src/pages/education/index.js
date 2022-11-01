@@ -29,6 +29,7 @@ const EducationTabs = React.memo(() => {
                 if (res && res.length === 0) {
                     const newrecord = await apiPostCall('/api/common/common_mutiple_insert', { _list: [{ _modal: 'EductionList', _condition: 'new', _data: { userid: MyLocalStorage.getUserId(), schools: [], colleges: [], others: [] } }] });
                     pageData.current._id = newrecord.upsertedId;
+                    schoolMenus.current = [...formList.schoolMenu];
                 } else {
                     pageData.current._id = res._id;
                     schoolAddedList.current = res.schools || [];
