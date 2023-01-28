@@ -18,5 +18,8 @@ export const formList = {
         //     {major: '', year: '', place: '', country: '', state: '', zipcode: ''}
         // ]
     },
-    collegeMenu: ['Computer Science', 'Communications', 'Government/Political Science', 'Business', 'Economics', 'English Language and Literature', 'Psychology', 'Nursing', 'Chemical Engineering', 'Biology']
+    collegeMenu: ['Computer Science', 'Communications', 'Government/Political Science', 'Business', 'Economics', 'English Language and Literature', 'Psychology', 'Nursing', 'Chemical Engineering', 'Biology'],
+    
+    
+
 };

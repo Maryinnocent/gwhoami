@@ -17,7 +17,8 @@ const HomeHeaders = React.memo(forwardRef(({empty}, ref) => {
             {p: '/home', name: 'Home'},
             {p: '/about', name: 'About Us'},
             {p: '/login', name: 'Login'},
-            {p: '/register', name: 'Register'}
+            {p: '/register', name: 'Register'},
+            //{p: '/verification', name: 'OTP Test'}
         ]
     });
     const goTo = (idx) => {

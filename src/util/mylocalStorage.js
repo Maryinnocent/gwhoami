@@ -11,6 +11,9 @@ myLocalStorage.prototype.getShortName = function() {
     if (this.getLoginInfo().accessType === 0) return "AD";
     else return `${this.getLoginInfo().firstName.charAt(0)}${this.getLoginInfo().lastName.charAt(0)}`;
 }
+myLocalStorage.prototype.getFullName = function() {
+    return `${this.getLoginInfo().firstName} ${this.getLoginInfo().lastName}`;
+}
 myLocalStorage.prototype.setProfilePic = function(ext) {
     const info = this.getLoginInfo();
     info.logo_path = ext;

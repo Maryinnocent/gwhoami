@@ -19,7 +19,7 @@ export const InputText = React.memo(({styleClass, formKey, formRef, uiRefresh, l
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className={`text-gray-600 mb-1${required?' required':''}`}>{label}</label>
+            <label className={`text-gray-600 ${required?' required':''}`}>{label}</label>
             <input type="text" required={!!required} className={`w-full p-2 rounded${inValidBorder()}`} placeholder={placeholder} value={formRef.current[formKey]} onChange={e=>setFormVal(e)} />
             {isNotValid() && <div className='flex justify-start items-center text-red-500 text-xs mt-1'>{required}</div>}
         </div>
@@ -38,14 +38,14 @@ export const InputEmail = React.memo(({styleClass, formKey, formRef, uiRefresh, 
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className={`text-gray-600 mb-1${required?' required':''}`}>{label}</label>
+            <label className={`text-gray-600 ${required?' required':''}`}>{label}</label>
             <input type="text" required={!!required} className={`w-full p-2 rounded${inValidBorder()}`} placeholder={placeholder} value={formRef.current[formKey]} onChange={e=>setFormVal(e)} readOnly={readonly} disabled={disabled} />
             {isNotValid() && <div className='flex justify-start items-center text-red-500 text-xs mt-1'>{errorNum() === 1 ? required : 'Invalid email address'}</div>}
         </div>
     );
 });
 
-export const InputRadio = React.memo(({styleClass="",formKey, formRef, ui, name, label, values = [], icons = [], required="", colors=[]}) => {
+export const InputRadio = React.memo(({styleClass="",formKey, formRef, ui, name, label, values = [], icons = [], required="", colors=[], disabled=false, passRef=null}) => {
     const isNotValid = () =>required && formRef.current.isSubmit && !formRef.current[formKey];
     const inValidBorder = ()=>isNotValid() ? 'border-red-500' : 'border-gray-400';
     const [, refresh] = useState(-1);
@@ -54,14 +54,15 @@ export const InputRadio = React.memo(({styleClass="",formKey, formRef, ui, name,
         refresh(Date.now());
     }
     return (
-        <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className="text-gray-600 mb-1 required">{label}</label>
+        <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`} ref={passRef}>
+            <label className="text-gray-600 required">{label}</label>
             <div className="flex">
                 {values.map((r, i)=> (
                     <label key={i} className={`inline-flex items-center${i > 0 ? ' ml-5' : ''}`}>
                         <input 
                             type="radio" 
                             className={`rounded-full ${inValidBorder()} text-blue-400 shadow-sm focus:border-blue-700 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50`}
+                            disabled={disabled}
                             name={name}
                             value={r}
                             defaultChecked={formRef.current[formKey] === r}
@@ -115,7 +116,7 @@ export const InputPhone = React.memo(({styleClass, formKey, formRef, ui, label, 
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className="text-gray-600 mb-1 required">{label}</label>
+            <label className="text-gray-600 required">{label}</label>
             <div className="flex">
                 <span 
                     className={`inline-flex items-center justify-center px-3 text-sm text-gray-900 bg-gray-100 rounded-l-md border border-r-0 ${inValidBorder()} dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600 w-15`}
@@ -147,7 +148,7 @@ export const InputDOB = React.memo(({styleClass, formKey, formRef, ui, label, ca
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className="text-gray-600 mb-1 required">DOB</label>
+            <label className="text-gray-600 required">DOB</label>
             <DatePickerInput 
                 onChange={date=>setFormVal(date)} 
                 value={formRef.current[formKey]}
@@ -173,7 +174,7 @@ export const DatePicker = React.memo(({styleClass, formKey, formRef, ui, label, 
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className="text-gray-600 mb-1 required">{label}</label>
+            <label className="text-gray-600 required">{label}</label>
             <DatePickerInput 
                 onChange={date=>setFormVal(date)} 
                 value={formRef.current[formKey]}
@@ -188,7 +189,7 @@ export const DatePicker = React.memo(({styleClass, formKey, formRef, ui, label, 
     );
 });
 
-export const PasswordCheck = React.memo(({styleClass, formKey, formRef, ui, ID=""}) => {
+export const PasswordCheck = React.memo(({styleClass, formKey, formRef, ui, ID="", passwordLabel="Password", passwordRLabel="Re-Password"}) => {
     const isNotValid = () =>formRef.current.isSubmit && !formRef.current[formKey];
     const inValidBorder = ()=> {
         return isNotValid() ? 'border-red-500' : (formRef.current.isSubmit && feed >=0 && feed < 2) ? 'border-red-500' : 'border-gray-400';
@@ -222,7 +223,7 @@ export const PasswordCheck = React.memo(({styleClass, formKey, formRef, ui, ID="
     return (
         <>
             <div className={`flex flex-col${(isNotValid() || (formRef.current.isSubmit && feed >=0 && feed < 2)) ? ' mark-err' : ''}${formRef.current[formKey].length ? '': ' mb-4'}`}>
-                <label className="text-gray-600 mb-1 required">Password</label>
+                <label className="text-gray-600 required">{passwordLabel}</label>
                 <div className='relative'>
                     <input 
                         type={isEyeToggle ? "text" : "password"}
@@ -242,7 +243,7 @@ export const PasswordCheck = React.memo(({styleClass, formKey, formRef, ui, ID="
                 {formRef.current[formKey].length > 0 && <PasswordStrengthBar password={formRef.current[formKey]} minLength={8} className="mt-2" onChangeScore={(score, feed)=>scoreFeed(score, feed)}/>}
             </div>
             <div className={`flex flex-col mb-4${comparePass() ? ' mark-err' : ''}`}>
-                <label className="text-gray-600 mb-1 required">Re-Password</label>
+                <label className="text-gray-600 required">{passwordRLabel}</label>
                 <div className='relative'>
                     <input 
                         type={isEyeToggle2 ? "text" : "password"}
@@ -302,7 +303,7 @@ export const GroupInput = React.memo(({styleClass, formKey, formRef, uiRefresh, 
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className={`text-gray-600 mb-1${required?' required':''}`}>{label}</label>
+            <label className={`text-gray-600 ${required?' required':''}`}>{label}</label>
             <div className='relative'>
                 <input type="text" required={!!required} className={`w-full py-2 pl-11 pr-2 rounded${inValidBorder()}`} placeholder={placeholder} value={formRef.current[formKey]} onChange={e=>setFormVal(e)} />
                 <div className="absolute inset-y-0 left-1 flex items-center px-2 pointer-events-none text-gray-600"><FontAwesomeIcon icon={icon} className="text-lg"/></div>
@@ -324,7 +325,7 @@ export const GroupEmail = React.memo(({styleClass, formKey, formRef, uiRefresh, 
     }
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
-            <label className={`text-gray-600 mb-1${required?' required':''}`}>{label}</label>
+            <label className={`text-gray-600 ${required?' required':''}`}>{label}</label>
             <div className='relative'>
                 <input type="text" required={!!required} className={`w-full py-2 pl-11 pr-2 rounded${inValidBorder()}`} placeholder={placeholder} value={formRef.current[formKey]} onChange={e=>setFormVal(e)} readOnly={readonly} disabled={disabled} />
                 <div className="absolute inset-y-0 left-1 flex items-center px-2 pointer-events-none text-gray-600"><FontAwesomeIcon icon={icon} className="text-lg"/></div>
@@ -372,5 +373,12 @@ export const ButtonLoader = React.memo(() => (
     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+));
+
+export const TinyLoader = React.memo(({color="currentColor"}) =>(
+    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke={color} strokeWidth="4"></circle>
+        <path className="opacity-75" fill={color} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
     </svg>
 ));

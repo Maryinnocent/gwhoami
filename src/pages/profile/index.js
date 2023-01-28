@@ -8,12 +8,14 @@ import ToastMessage from "../../toast";
 import MyLocalStorage from "../../util/mylocalStorage";
 import JobPanel from "./job";
 import BusinessPanel from "./business";
+import GeneralForm from "./generalForm";
 
 const ProfileTabs = React.memo(() => {
     const [ui, uiRefresh] = useState(-1);
     const pageData = useRef({ init: false, _id: '' });
     const jobAddedList = useRef([]);
     const businessAddedList = useRef([]);
+    const userInfo = useRef({...MyLocalStorage.getLoginInfo(), isSubmit: true});
     const { tabid } = useParams();
     useEffect(() => {
         (async () => {
@@ -32,6 +34,7 @@ const ProfileTabs = React.memo(() => {
                     businessAddedList.current = res.business || [];
                 }
                 pageData.current.init = true;
+                console.log(userInfo.current);
                 uiRefresh(Date.now());
             }
         })();
@@ -49,9 +52,7 @@ const ProfileTabs = React.memo(() => {
                         title: 'General',
                         tabClassName: 'customtab',
                         panelClassName: 'custompanel',
-                        getContent: () => (
-                            <h1>General</h1>
-                        )
+                        getContent: () =><GeneralForm userInfo={userInfo}/>
                     }, {
                         title: 'Job',
                         tabClassName: 'customtab',

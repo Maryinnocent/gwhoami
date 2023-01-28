@@ -44,11 +44,11 @@ const SideBar = React.memo(() => {
                             <i className='bx bxs-chevron-down arrow'></i>
                         </div>
                         <ul className="sub-menu">
-                            {itm.sub.map((sub, subidx)=>(
+                            {itm.sub.map((sub, subidx,icon)=>(
                                 <React.Fragment key={sub.name}>
                                 {subidx === 0 ? 
                                     <li><a href="#/" onClick={e=>goToPage(e, undefined)} className="link_name">{sub.name}</a></li> :
-                                    <li><a href="#/" onClick={e=>goToPage(e, sub.path)}>{sub.name}</a></li>
+                                    <li><a href="#/" onClick={e=>goToPage(e, sub.path)}>{sub.icon}{sub.name}</a></li>
                                 }
                                 </React.Fragment>
                             ))}

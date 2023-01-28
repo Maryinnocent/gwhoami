@@ -1,5 +1,5 @@
 import { Menu, MenuItem, MenuDivider,MenuHeader } from "@szhsin/react-menu";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { MainContext } from "../../util/maincontext";
 import MyLocalStorage from "../../util/mylocalStorage";
@@ -8,6 +8,7 @@ import '@szhsin/react-menu/dist/core.css';
 const TopHeader = React.memo(() =>{
     const history = useHistory();
     const {setAuthenticated} = useContext(MainContext);
+    const names = useRef({fullName: MyLocalStorage.getFullName(), shortName: MyLocalStorage.getShortName()});
     const logout = () => {
         MyLocalStorage.empty();
         setAuthenticated(false);
@@ -46,21 +47,21 @@ const TopHeader = React.memo(() =>{
                         menuButton={
                             <button className="focus:shadow-outline-purple focus:outline-none">
                                 <div className="flex justify-center w-9 h-9 items-center bg-sky-b rounded-full">
-                                    <span className="font-bold text-xs text-white">AD</span>
+                                    <span className="font-bold text-xs text-white">{names.current.shortName}</span>
                                 </div>
                             </button>
                         }
                     >
                         <MenuHeader className="px-5 pt-4 pb-2 flex flex-col items-start text-lg">
-                            <span>Suman Savio</span>
+                            <span>{names.current.fullName}</span>
                             <span></span>
                         </MenuHeader>
                         <MenuDivider />
-                        <MenuItem className={menuItemClassName} style={{backgroundColor: "#FFF"}}>
+                        {/* <MenuItem className={menuItemClassName} style={{backgroundColor: "#FFF"}}>
                             <div className="px-5 py-2 flex justify-start items-center">
                                 <i className='bx bxs-user-circle mr-2 text-2xl'></i><span>View Profile</span>
                             </div>
-                        </MenuItem>
+                        </MenuItem> */}
                         <MenuItem className={menuItemClassName} style={{backgroundColor: "#FFF"}}>
                             <div className="px-5 py-2 flex justify-start items-center">
                                 <i className='bx bxs-key mr-2 text-2xl'></i><span>Change Password</span>

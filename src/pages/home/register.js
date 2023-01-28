@@ -1,18 +1,41 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { faAddressCard, faCity, faEnvelope, faFemale, faMale, faMapPin, faUser } from "@fortawesome/free-solid-svg-icons";
-import { CountrySelect, GroupEmail, GroupInput, InputDOB, InputPhone, InputRadio, InputSelect, PasswordCheck } from "../../component/forms";
+import { CountrySelect, GroupEmail, GroupInput, InputDOB, InputPhone, InputRadio, InputSelect, PasswordCheck, TinyLoader } from "../../component/forms";
 import Constants from "../../helper/Constants";
 import { apiPostCall } from "../../helper/API";
 import ToastMessage from "../../toast";
 import { Link } from "react-router-dom";
 import {Animated} from 'react-animated-css';
 import { HomeContext } from "../../util/maincontext";
+import { auth} from './firebaseInit';
+import firebase from 'firebase/compat/app';
 import 'boxicons';
+import PopupDialog from "../../component/modal/popupDialog";
+import ReactCodeInput from 'react-verification-code-input';
+import moment from "moment";
 
 const RegisterUser = React.memo(() => {
     const [ui, uiRefresh] = useState(-1);
     const {menuRef} = useContext(HomeContext);
     const regRef = useRef({ ...Constants.user_empty_form });
+    const [authRes, setAuthRes] = useState('');
+    const minorRef = useRef();
+
+    const verify = useRef({
+        otpLoading: false,
+        verifyLoading: false,
+        isOTPDone: false,
+        isVerifyError: false,
+        otpCompleted: false,
+        codeComplete: false,
+        otpPopup: false,
+        verifycode: '',
+        hideOtpPopup: () => {
+            verify.current = {...verify.current, isOTPDone: false, isVerifyError: false, otpCompleted: false, codeComplete: false, otpPopup: false, verifyLoading: false,otpLoading: false}
+            uiRefresh(Date.now());
+        }
+    });
+
     const stateList = useRef({
         'US': [...Constants.usa],
         'IN': [...Constants.india]
@@ -36,11 +59,37 @@ const RegisterUser = React.memo(() => {
         uiRefresh(Date.now());
     }, []);
     const dobCallback = useCallback(() => {
+        regRef.current.minor =  moment().diff(regRef.current.dob, 'years') <= 17 ? "Yes" : "No";
+        let doms = minorRef.current.querySelectorAll('input');
+        Array.from(doms).forEach(i=>i.disabled = false);
+        minorRef.current.querySelector(`input[value="${regRef.current.minor}"]`).click();
+        Array.from(doms).forEach(i=>i.disabled = true);
         uiRefresh(Date.now());
     }, []);
 
     useEffect(()=>{
         setTimeout(()=>setShowBox(true), 1000);
+    }, []);
+
+    const submitUser = useCallback(async() => {
+        regRef.current.isLoading = true;
+        uiRefresh(Date.now());
+        let data = { ...regRef.current }
+        data.accountId = `${data.country}-${moment(data.dob).format('YYYYMMDD')}-${Math.floor(Math.random()*90000) + 10000}`
+        delete data.isSubmit;
+        delete data.formChanges;
+        delete data.isLoading;
+        const res = await apiPostCall('/api/user/userbasicreg', { ...data });
+        if (res.isError) {
+            ToastMessage({ type: "error", message: res.Error.response.data.message, timeout: 2000 });
+            regRef.current.isLoading = false;
+            uiRefresh(Date.now());
+        } else {
+            //regRef.current = { ...Constants.user_empty_form }
+            regRef.current.message = 1;
+            setShowBox(true);
+            uiRefresh(Date.now());
+        }
     }, []);
 
     useEffect(() => {
@@ -50,29 +99,40 @@ const RegisterUser = React.memo(() => {
             first_err.scrollIntoView({ block: 'end', behavior: 'smooth' });
             return;
         }
-        regRef.current.isLoading = true;
+        verify.current.otpPopup = true;
         uiRefresh(Date.now());
-        let data = { ...regRef.current }
-        delete data.isSubmit;
-        delete data.formChanges;
-        delete data.isLoading;
-
-        const apiCall = async () => {
-            const res = await apiPostCall('/api/user/userbasicreg', { ...data });
-            if (res.isError) {
-                ToastMessage({ type: "error", message: res.Error.response.data.message, timeout: 2000 });
-                regRef.current.isLoading = false;
-                uiRefresh(Date.now());
-            } else {
-                //regRef.current = { ...Constants.user_empty_form }
-                regRef.current.message = 1;
-                setShowBox(true);
-                uiRefresh(Date.now());
-            }
-        };
-        apiCall();
         // eslint-disable-next-line
     }, [regRef.current.formChanges]);
+    const sendOTP = async () => {
+        verify.current.otpLoading = true;
+        uiRefresh(Date.now());
+        let phone = `${regRef.current.phoneCode}${regRef.current.phone}`;
+        let verify_ref = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        auth.signInWithPhoneNumber(phone, verify_ref).then((result) => {
+            setAuthRes(result);
+            verify.current.otpLoading = false;
+            verify.current.isOTPDone = true;
+            uiRefresh(Date.now());
+        }).catch((err) => {
+            ToastMessage({ type: "error", message: err, timeout: 2000 });
+        });
+    }
+    const verifyOTP = async() => {
+        if (authRes === null) return;
+        verify.current.verifyLoading = true;
+        verify.current.isVerifyError = false;
+        uiRefresh(Date.now());
+
+        authRes.confirm(verify.current.verifycode).then((result) => {
+            verify.current.hideOtpPopup();
+            submitUser();
+        }).catch((err) => {
+            verify.current.verifyLoading = false;
+            verify.current.isVerifyError = true;
+            uiRefresh(Date.now());
+        });
+    }
+
     if (regRef.current.message === 1) return (
         <div className="flex my-20 justify-center">
            {showBox &&  
@@ -85,8 +145,8 @@ const RegisterUser = React.memo(() => {
         </div>
     );
     else return (
+        <>
         <div className="flex flex-col my-20">
-            
             <form noValidate onSubmit={e => formSubmit(e)}>
                 <div className="container max-w-2xl mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
@@ -263,9 +323,11 @@ const RegisterUser = React.memo(() => {
                                 formKey="minor" 
                                 formRef={regRef} 
                                 ui={ui} 
-                                name="minor" 
+                                name="minor"
                                 label="Is the user being minor (less than 18 years old)" 
-                                values={['Yes', 'No']} 
+                                values={['Yes', 'No']}
+                                disabled={true}
+                                passRef={minorRef}
                                 required="This field is required" 
                             />
                         </div>
@@ -285,6 +347,63 @@ const RegisterUser = React.memo(() => {
                 </div>
             </form>
         </div>
+        <PopupDialog 
+            show={verify.current.otpPopup} 
+            showCallback={verify.current.hideOtpPopup}
+            title="OTP Verfication"
+        >
+            <div className="w-full">
+                {!verify.current.isOTPDone ? <>
+                <div className="absolute">
+                    <div id="recaptcha-container"></div>
+                </div>
+                <InputPhone 
+                    styleClass="flex flex-col mb-4" 
+                    formKey="phone" 
+                    ID="phone" 
+                    formRef={regRef} 
+                    uiRefresh={ui} 
+                    label="Mobile No" 
+                    code="phoneCode" 
+                    placeholder="Phone/Mobile" 
+                    required="Phone is required" 
+                />
+                <div className="flex justify-end">
+                    <button
+                        className="h-9 px-6 m-2 text-indigo-100 transition-colors duration-150 bg-dodge-b rounded-full shadow-md shadow-gray-500 focus:shadow-outline hover:bg-dodge-d"
+                        onClick={sendOTP}
+                    >
+                        {verify.current.otpLoading ? <TinyLoader color="#FFF"/> : <>Send OTP</>}
+                    </button>
+                </div></> : 
+                <div className="flex flex-col mb-5">
+                    <label>Enter 6 digit code</label>
+                    <div className="flex items-center justify-between">
+                        <ReactCodeInput
+                            className="codetxt"
+                            fieldHeight={40} onChange={e=>{
+                                if (e.length === 6) {
+                                    verify.current.codeComplete = true;
+                                    verify.current.verifycode = e;
+                                    uiRefresh(Date.now());
+                                } else if (verify.current.codeComplete) {
+                                    verify.current.codeComplete = false;
+                                    uiRefresh(Date.now());
+                                }
+                            }}
+                        />
+                        <button
+                            className={`h-9 px-6 m-2 text-indigo-100 transition-colors duration-150 rounded-full shadow-gray-500 focus:shadow-outline hover:bg-dodge-d${verify.current.codeComplete ? ' bg-dodge-b shadow-md' : ' bg-gray-100 pointer-events-none'}`}
+                            onClick={verifyOTP}
+                        >
+                            {verify.current.verifyLoading ? <TinyLoader color="#FFF"/> : <>Verify</>}
+                        </button>
+                    </div>
+                    {verify.current.isVerifyError && <div className="text-xs text-red-500">Verification code not matched!</div>}
+                </div>}
+            </div>            
+        </PopupDialog>
+        </>
     );
 });
 

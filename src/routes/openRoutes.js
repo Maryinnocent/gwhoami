@@ -20,7 +20,17 @@ const OpenRoutes = [
         path: '/register',
         component: lazy(()=> import('../pages/home/register')),
         exact: true
+    },
+    {
+        path: '/forgotpassword/:Id',
+        component: lazy(()=> import('../pages/home/forgotPassword')),
+        exact: true
     }
+    // {
+    //     path: '/verification',
+    //     component: lazy(()=> import('../pages/home/mobile')),
+    //     exact: true
+    // }
 ];
 
 export default OpenRoutes;
