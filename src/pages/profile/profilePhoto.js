@@ -94,6 +94,19 @@ const ProfilePhoto = (({userInfo, pageInfo}) => {
                 onClick={_=>fileRef.current.click()}
             >Pick photo</button>
         </div>
+        <div
+            onMouseEnter={_=>{uploadData.current.opacity = '0.4'; formRefresh(Date.now);}}
+            onMouseLeave={_=>{uploadData.current.opacity = '0'; formRefresh(Date.now);}}
+            className="border border-gray-500 self-center flex justify-center items-center bg-center bg-no-repeat bg-contain" 
+            style={{width: "180px", height: "180px", backgroundImage: `url('${process.env.REACT_APP_API_URL}/photos/${userInfo.current._id}${userInfo.current.photo}?${uploadData.current.phototick}')`}}>
+            <button 
+                className={`border rounded-full text-xs w-24 h-7 bg-gray-200 transition-opacity text-black`}
+                onMouseEnter={_=>{uploadData.current.opacity = '1'; formRefresh(Date.now);}}
+                onMouseLeave={_=>{uploadData.current.opacity = '0.4'; formRefresh(Date.now);}}
+                style={{opacity: uploadData.current.opacity}}
+                onClick={_=>fileRef.current.click()}
+            >Pick photo</button>
+        </div>
         <input type="file" name="image_file" id="image_file" className="hidden" ref={fileRef} onChange={e=>uploadFile(e)} accept="image/png, image/gif, image/jpeg" />
         </>);
     }
