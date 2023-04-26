@@ -25,6 +25,11 @@ const OpenRoutes = [
         path: '/forgotpassword/:Id',
         component: lazy(()=> import('../pages/home/forgotPassword')),
         exact: true
+    },
+    {
+        path: '/loginverify/:userId',
+        component: lazy(()=> import('../pages/home/loginVerify')),
+        exact: true
     }
     // {
     //     path: '/verification',

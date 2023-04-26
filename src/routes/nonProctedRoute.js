@@ -6,7 +6,7 @@ import OpenRoutes from "./openRoutes";
 
 const NonProtectedRoutes  = () => (
     <Switch>
-        <Suspense fallback={<DotSpinner/>}>
+        <Suspense fallback={<div className="w-full h-full justify-center items-center bg-bgback"><DotSpinner/></div>}>
             {OpenRoutes.map(({component: Component, path, exact})=>(
                 <Route
                     path={`/home${path}`}

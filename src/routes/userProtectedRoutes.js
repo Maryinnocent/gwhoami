@@ -5,7 +5,7 @@ import userPagePath from "./userPagePath";
 
 const UserProctedRoutes  = () => (
     <Switch>
-        <Suspense fallback={<DotSpinner/>}>
+        <Suspense fallback={<div className="w-full h-full justify-center items-center bg-bgback"><DotSpinner/></div>}>
             {userPagePath.map(({component: Component, path, exact})=>(
                 <Route
                     path={`/user${path}`}

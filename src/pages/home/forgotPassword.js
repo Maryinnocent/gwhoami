@@ -110,7 +110,7 @@ const ForgotPassword = () => {
     if (Id === 'sendlink')
     return (
         <div className="flex flex-col my-20 items-center">
-            <Animated animateOnMount={false} isVisible={formData.current.showSuccess} className="max-w-xl bg-dodge-b px-5 py-10 w-full rounded-xl flex flex-col justify-center items-center text-white">
+            <Animated animateOnMount={false} isVisible={formData.current.showSuccess} className="absolute max-w-xl bg-dodge-b px-5 py-10 w-full rounded-xl flex flex-col justify-center items-center text-white">
                 <span className="text-2xl">Email Send</span>
                 <span className="text-xl mt-2 text-center">
                     We have send you an email with change password link. Please check your email!.<br />

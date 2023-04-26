@@ -7,6 +7,14 @@ import { DatePickerInput } from 'rc-datepicker';
 import 'rc-datepicker/lib/style.css';
 import ReactFlagsSelect, { In, Us } from 'react-flags-select';
 import PasswordStrengthBar from 'react-password-strength-bar';
+import { useEffect } from 'react';
+
+export const Mode = {
+    onlyNumber: 'number',
+    onlyAlphabets: 'alphabets',
+    onlyAlphaNumeric: 'alphanumeric',
+    none: 'none'
+}
 
 export const InputText = React.memo(({styleClass, formKey, formRef, uiRefresh, label, placeholder, required="", callback=null}) => {
     const isNotValid = () =>required && formRef.current.isSubmit && !formRef.current[formKey];
@@ -293,19 +301,48 @@ export const CountrySelect = React.memo(({styleClass, formKey, formRef, ui, labe
     );
 });
 
-export const GroupInput = React.memo(({styleClass, formKey, formRef, uiRefresh, label, placeholder, required="", icon=null}) => {
+export const GroupInput = React.memo(({styleClass, formKey, formRef, uiRefresh, label, placeholder, required="", icon=null, maxLength=-1, mode=Mode.none}) => {
     const isNotValid = () =>required && formRef.current.isSubmit && !formRef.current[formKey];
     const inValidBorder = ()=>isNotValid() ? ' border-red-500' : '';
     const [, refresh] = useState(-1);
+    const textRef = useRef();
     const setFormVal = (e) => {
         formRef.current[formKey] = e.currentTarget.value;
         refresh(Date.now());
     }
+    useEffect(()=> {
+        if (mode === 'none') return;
+        if (mode === Mode.onlyAlphabets) {
+            textRef.current.addEventListener('keypress', (event)=> {
+                const isValid = (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)//(event.keyCode > 64 && event.keyCode < 91) || (event.keyCode > 96 && event.keyCode < 123);
+                if (!isValid) event.preventDefault();
+                //return (event.keyCode > 64 && event.keyCode < 91) || (event.keyCode > 96 && event.keyCode < 123)
+            });
+        } else if (mode === Mode.onlyNumber) {
+            textRef.current.addEventListener('keypress', (evt)=> {
+                const charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57)) evt.preventDefault();
+            });
+        } else if (mode === Mode.onlyAlphaNumeric) {
+            textRef.current.addEventListener('keypress', (evt)=> {
+                const keyCode = (evt.which) ? evt.which : evt.keyCode;
+                if (!((keyCode >= 48 && keyCode <= 57) || (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (keyCode === 32))) evt.preventDefault();
+            });
+        }
+    }, [mode]);
     return (
         <div className={`${styleClass}${isNotValid() ? ' mark-err' : ''}`}>
             <label className={`text-gray-600 ${required?' required':''}`}>{label}</label>
             <div className='relative'>
-                <input type="text" required={!!required} className={`w-full py-2 pl-11 pr-2 rounded${inValidBorder()}`} placeholder={placeholder} value={formRef.current[formKey]} onChange={e=>setFormVal(e)} />
+                <input 
+                    type="text" 
+                    required={!!required} 
+                    className={`w-full py-2 pl-11 pr-2 rounded${inValidBorder()}`} 
+                    placeholder={placeholder} 
+                    value={formRef.current[formKey]}
+                    ref={textRef}
+                    onChange={e=>setFormVal(e)} maxLength={maxLength} 
+                />
                 <div className="absolute inset-y-0 left-1 flex items-center px-2 pointer-events-none text-gray-600"><FontAwesomeIcon icon={icon} className="text-lg"/></div>
             </div>
             {isNotValid() && <div className='flex justify-start items-center text-red-500 text-xs mt-1'>{required}</div>}

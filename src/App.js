@@ -13,6 +13,7 @@ import 'react-datetime/css/react-datetime.css';
 //import HomeLanding from './layout/homelayout/homeLanding';
 import UserRoute from './routes/userRoute';
 import { QueryClient, QueryClientProvider } from 'react-query';
+//import { useBeforeunload } from 'react-beforeunload';
 //import { ReactQueryDevtools } from 'react-query-devtools';
 //import { ReactQueryDevtools } from 'react-query/devtools';
 //import ToastMessage from './toast';
@@ -33,6 +34,10 @@ const App = () => {
     useState(()=> {
         setAuthenticated(MyLocalStorage.isLoggedIn());
     }, []);
+    // useBeforeunload(()=> {
+    //     MyLocalStorage.empty();
+    //     setAuthenticated(false);
+    // });
     
     return (
         <QueryClientProvider client={queryClient}>

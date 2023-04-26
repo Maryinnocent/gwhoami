@@ -1,18 +1,19 @@
 import { Menu, MenuItem, MenuDivider,MenuHeader } from "@szhsin/react-menu";
 import React, { useContext, useRef } from "react";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import { MainContext } from "../../util/maincontext";
 import MyLocalStorage from "../../util/mylocalStorage";
 import '@szhsin/react-menu/dist/core.css';
 
 const TopHeader = React.memo(() =>{
-    const history = useHistory();
+    //const history = useHistory();
     const {setAuthenticated} = useContext(MainContext);
     const names = useRef({fullName: MyLocalStorage.getFullName(), shortName: MyLocalStorage.getShortName()});
     const logout = () => {
         MyLocalStorage.empty();
         setAuthenticated(false);
-        history.push('/home');
+        window.location.href = `${process.env.REACT_APP_SITE}`
+        //history.push('/home');
     }
     const menuClassName = ({ state }) =>
     `box-border absolute z-50 pb-3 bg-white p-1.5 text-gray-600 border rounded-md shadow-lg select-none focus:outline-none min-w-[15rem] ${

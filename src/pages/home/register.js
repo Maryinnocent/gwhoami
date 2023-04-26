@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { faAddressCard, faCity, faEnvelope, faFemale, faMale, faMapPin, faUser } from "@fortawesome/free-solid-svg-icons";
-import { CountrySelect, GroupEmail, GroupInput, InputDOB, InputPhone, InputRadio, InputSelect, PasswordCheck, TinyLoader } from "../../component/forms";
+import { CountrySelect, GroupEmail, GroupInput, InputDOB, InputPhone, InputRadio, InputSelect, Mode, PasswordCheck, TinyLoader } from "../../component/forms";
 import Constants from "../../helper/Constants";
 import { apiPostCall } from "../../helper/API";
 import ToastMessage from "../../toast";
@@ -157,7 +157,9 @@ const RegisterUser = React.memo(() => {
                                     styleClass="flex flex-col mb-4" 
                                     formKey="firstName" formRef={regRef} 
                                     uiRefresh={ui} 
-                                    label="First Name" 
+                                    label="First Name"
+                                    mode={Mode.onlyAlphabets}
+                                    maxLength={30} 
                                     placeholder="First Name" 
                                     required="First Name is required" 
                                     icon={faUser} 
@@ -167,7 +169,9 @@ const RegisterUser = React.memo(() => {
                                 <GroupInput 
                                     styleClass="flex flex-col mb-4" 
                                     formKey="lastName" 
-                                    formRef={regRef} 
+                                    formRef={regRef}
+                                    maxLength={30} 
+                                    mode={Mode.onlyAlphabets}
                                     uiRefresh={ui} label="Last Name" 
                                     placeholder="Last Name" 
                                     required="Last Name is required" 
@@ -247,7 +251,7 @@ const RegisterUser = React.memo(() => {
                                     formRef={regRef} 
                                     uiRefresh={ui} 
                                     label="Address" 
-                                    placeholder="Adress" 
+                                    placeholder="Address" 
                                     required="Address is required" 
                                     icon={faAddressCard} 
                                 />

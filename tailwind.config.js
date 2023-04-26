@@ -6,7 +6,8 @@ module.exports = {
       colors: { 
         'dodge-b': '#1e90ff',
         'dodge-d': '#0382ff',
-        'sky-b': '#00AEF0'
+        'sky-b': '#00AEF0',
+        'bgback': '#E4E9F7'
       },
       keyframes: {
         fadeIn: { from: { opacity: 0, transform: "scale(.95)" } },
