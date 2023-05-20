@@ -44,9 +44,10 @@ const ProfileTabs = React.memo(() => {
     else return (
         <div className="flex px-6 w-full container justify-center mx-auto pb-5">
             <div className="sm:w-full md:w-full xl:w-3/5 mt-20">
+                <div className="flex justify-end">Test</div>
                 <Tabs
                     selectedTabKey={tabid === 'general' ? 0 : tabid === 'job' ? 1 : tabid === 'business' ? 2 : 0}
-                    transformWidth={600}
+                    transformWidth={500}
                     tabClassName="bg-red-100"
                     items={[{
                         title: 'General',

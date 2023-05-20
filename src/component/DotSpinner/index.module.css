@@ -10,7 +10,7 @@
     width: 8px;
     height: 8px;
     margin: 0 4px;
-    background-color: rgba(236, 72, 153, var(--tw-bg-opacity));
+    background-color: rgba(236, 72, 153, 0.9);
     border-radius: 50%;
     opacity: 0;
     animation: loadingFade 1s infinite;

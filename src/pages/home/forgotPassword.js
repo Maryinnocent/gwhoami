@@ -37,7 +37,7 @@ const ForgotPassword = () => {
         if (document.querySelector('.err-input')) {
             return;
         }
-        let changeURL = `${process.env.REACT_APP_BASE_URL}/home/forgotpassword`;
+        let changeURL = encodeURIComponent(`${process.env.REACT_APP_BASE_URL}/home/forgotpassword`);
         verifyMutate.mutate({changeURL, username: formData.current.username}, {
             onSuccess: data => {
                 formData.current.showSuccess = true;
