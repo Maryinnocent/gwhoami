@@ -359,7 +359,6 @@ const AllergiesForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordI
                             </div>
                             <div className="w-1/3">
                                 <label>Date of birth</label>
-
                                 <input
                                     type="text"
                                     value={MyLocalStorage.getLoginInfo().dob}
@@ -367,7 +366,6 @@ const AllergiesForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordI
                                     dateFormat="MM/DD/YYYY"
                                     className={`w-full rounded `}
                                 />
-
                             </div>
                         </div>
 

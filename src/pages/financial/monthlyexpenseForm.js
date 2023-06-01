@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
 import Datetime from "react-datetime";
-import ReactFlagsSelect from "react-flags-select";
 import Constants from "../../helper/Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faFile, faFileAlt, faFileExcel, faFileImage, faFilePdf, faFilePowerpoint, faFileWord, faSave, faSearch, faTrashAlt, faUpload } from "@fortawesome/free-solid-svg-icons";
@@ -13,11 +12,12 @@ import { nanoid } from "nanoid";
 // import { UserContext } from "../../util/maincontext";
 import { InputRadio } from "../../component/forms";
 
-const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordIndex, monthlyexpenseAddedList }) => {
+const MonthlyexpenseForm = React.memo(({formAmounts, form, uiRefresh, alertRef, pageData, recordIndex, monthlyexpenseAddedList }) => {
     const [ui] = useState(-1);
     const regRef = useRef({ ...Constants.user_empty_form });
     const formRef = useRef(form);
     const currentDom = useRef();
+    const formAmt = useRef(formAmounts);
     // const { scrollRef } = useContext(UserContext);
     const pageRef = useRef({
         isSaving: false,
@@ -53,14 +53,6 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
         pageRef.current.showProgress = true;
         progress.current.value = 0;
         subRefresh(Date.now());
-    }
-    const countryCallback = (code, itm, idx) => {
-        itm.state = '';
-        itm.country = code;
-        subRefresh(Date.now());
-    }
-    const stateList = (country) => {
-        return country === 'US' ? [...Constants.usa] : country === 'IN' ? [...Constants.india] : [];
     }
     let inputProps = {
         placeholder: 'MM/DD/YYYY',
@@ -189,6 +181,101 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
             }, 'Confirm?', 'Are you sure to delete this Monthly Expense details?');
         }
     }
+
+
+
+
+
+
+    //
+    const totalExpense = (
+        water
+        ,trash
+        ,gas
+        ,transport
+        ,automa
+        ,carReg
+        ,carIns
+        ,homeMa
+        ,homeIns
+        ,healthCare
+        ,clothing
+        ,gifts
+        ,charitable
+        ,transportFin
+        ,compFin
+        ,software
+        ,entertainment
+        ,vacation
+        ,gymFin
+        ,education
+        ,gaming
+        ,celebration
+        ,beauty
+        ,propTax
+        ,movie
+        ,phone
+        ,lifeIns
+        ,membership
+        ,cCard
+        ,houseMain
+        ,banking
+        ,houseHold
+        ,petCare
+        ,childCare
+        ,kidsActivity
+        ,schoolFees
+        ,weddings
+        ,taxes
+        ,lawnCare
+        ,otherFin   ) =>{
+
+        const total  = Number(0) 
+        + Number(water)
+        +Number(trash)
+        +Number(gas)
+        +Number(transport)
+        +Number(automa)
+        +Number(carReg)
+        +Number(carIns)
+        +Number(homeMa)
+        +Number(homeIns)
+        +Number(healthCare)
+        +Number(clothing)
+        +Number(gifts)
+        +Number(charitable)
+        +Number(transportFin)
+        +Number(compFin)
+        +Number(software)
+        +Number(entertainment)
+        +Number(vacation)
+        +Number(gymFin)
+        +Number(education)
+        +Number(gaming)
+        +Number(celebration)
+        +Number(beauty)
+        +Number(propTax)
+        +Number(movie)
+        +Number(phone)
+        +Number(lifeIns)
+        +Number(membership)
+        +Number(cCard)
+        +Number(houseMain)
+        +Number(banking)
+        +Number(houseHold)
+        +Number(petCare)
+        +Number(childCare)
+        +Number(kidsActivity)
+        +Number(schoolFees)
+        +Number(weddings)
+        +Number(taxes)
+        +Number(lawnCare)
+        +Number(otherFin);
+        return total;
+    }
+    //
+
+
     return (
         <>
             {pageRef.current.showUploadWin &&
@@ -261,45 +348,45 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
                             <div className="w-1/4 mr-5">
                                 <label>Water $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.water}
-                                    className={`w-full rounded border ${!formRef.current.water ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.water ? 'border-red-500' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.water = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Trash $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.trash}
-                                    className={`w-full rounded border ${!formRef.current.trash ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.trash ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.trash = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
-                                <label>Gas</label>
+                                <label>Gas $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.interestIncome}
-                                    className={`w-full rounded border ${!formRef.current.interestIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.interestIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.gas}
+                                    className={`w-full rounded border ${!formRef.current.gas ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.gas = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Transport $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.transport}
-                                    className={`w-full rounded border ${!formRef.current.transport ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.transport ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.transport = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Auto Ma $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.automa}
-                                    className={`w-full rounded border ${!formRef.current.automa ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.automa ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.automa = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
@@ -308,45 +395,45 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
                             <div className="w-1/4 mr-5">
                                 <label>Car Reg $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.carReg}
-                                    className={`w-full rounded border ${!formRef.current.carReg ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.carReg ? 'border-red-500' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.carReg = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Car Ins $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.carIns}
-                                    className={`w-full rounded border ${!formRef.current.carIns ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.carIns ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.carIns = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Home Ma $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.homeMa}
-                                    className={`w-full rounded border ${!formRef.current.homeMa ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.homeMa ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.homeMa = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>home Ins $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.homeIns}
-                                    className={`w-full rounded border ${!formRef.current.homeIns ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.HomeIns = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    className={`w-full rounded border ${!formRef.current.homeIns ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.homeIns = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Health Care $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.healthCare}
-                                    className={`w-full rounded border ${!formRef.current.healthCare ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.healthCare ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.healthCare = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
@@ -355,130 +442,295 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
                             <div className="w-1/4 mr-5">
                                 <label>Clothing $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.clothing}
-                                    className={`w-full rounded border ${!formRef.current.clothing ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.clothing ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.clothing = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Gifts $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.gifts}
-                                    className={`w-full rounded border ${!formRef.current.gifts ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.gifts ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.gifts = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
                                 <label>Chaitable $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.charitable}
-                                    className={`w-full rounded border ${!formRef.current.charitable ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    className={`w-full rounded border ${!formRef.current.charitable ? 'border-red-500  ' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.charitable = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
-                                <label>home Ins $</label>
+                                <label>Transport $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.homeIns}
-                                    className={`w-full rounded border ${!formRef.current.homeIns ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.HomeIns = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.transportFin}
+                                    className={`w-full rounded border ${!formRef.current.transportFin ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.transportFin = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                             <div className="w-1/4 mr-5">
-                                <label>Health Care $</label>
+                                <label>Maintanence $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.healthCare}
-                                    className={`w-full rounded border ${!formRef.current.healthCare ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.healthCare = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.compFin}
+                                    className={`w-full rounded border ${!formRef.current.compFin ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.compFin = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
 
                         <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>Divided Income</label>
+                            <div className="w-1/4 mr-5">
+                                <label>Software $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.dividedIncome}
-                                    className={`w-full rounded border ${!formRef.current.dividedIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.dividedIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.software}
+                                    className={`w-full rounded border ${!formRef.current.software ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.software = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
-                            <div className="w-1/3 mr-5">
-                                <label>Rental Income</label>
+                            <div className="w-1/4 mr-5">
+                                <label>Entertainment $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.rentalIncome}
-                                    className={`w-full rounded border ${!formRef.current.rentalIncome? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.rentalIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.entertainment}
+                                    className={`w-full rounded border ${!formRef.current.entertainment ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.entertainment = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
-                            <div className="w-1/3">
-                                <label>Capital Income</label>
+                            <div className="w-1/4 mr-5">
+                                <label>Vacation $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.capitalIncome}
-                                    className={`w-full rounded border ${!formRef.current.capitalIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.capitalIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.vacation}
+                                    className={`w-full rounded border ${!formRef.current.vacation ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.vacation = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Gym $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.gymFin}
+                                    className={`w-full rounded border ${!formRef.current.gymFin ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.gymFin = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Education $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.education}
+                                    className={`w-full rounded border ${!formRef.current.education ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.education = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                         </div>
                         <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>Royalty Income</label>
+                            <div className="w-1/4 mr-5">
+                                <label>Gaming $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.royaltyIncome}
-                                    className={`w-full rounded border ${!formRef.current.royaltyIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.royaltyIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.gaming}
+                                    className={`w-full rounded border ${!formRef.current.gaming ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.gaming = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
-                            <div className="w-1/3 mr-5">
-                                <label>Year</label>
-                                <Datetime
-                                    className={`w-full rounded ${!formRef.current.year ? 'invalidyear' : ''}`}
-                                    placeholder="YYYY"
-                                    dateFormat="YYYY"
-                                    closeOnSelect={true}
-                                    timeFormat={false}
-                                    inputProps={inputProps}
-                                    value={formRef.current.year ? new Date(formRef.current.year) : ''}
-                                    onChange={date => { formRef.current.year = date; subRefresh(Date.now()); }}
+                            <div className="w-1/4 mr-5">
+                                <label>Celebration $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.celebration}
+                                    className={`w-full rounded border ${!formRef.current.celebration ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.celebration = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
-                            <div className="w-1/3">
-                                <label>Other Income</label>
+                            <div className="w-1/4 mr-5">
+                                <label>Beauty $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.otherIncome}
-                                    className={`w-full rounded border ${!formRef.current.otherIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.otherIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={formRef.current.beauty}
+                                    className={`w-full rounded border ${!formRef.current.beauty ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.beauty = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Property Tax $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.propTax}
+                                    className={`w-full rounded border ${!formRef.current.propTax ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.propTax = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Movie $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.movie}
+                                    className={`w-full rounded border ${!formRef.current.movie ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.movie = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                         </div>
+                        <div className="flex w-full justify-start items-center relative">
+                            <div className="w-1/4 mr-5">
+                                <label>Phone $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.phone}
+                                    className={`w-full rounded border ${!formRef.current.phone ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.phone = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Life Ins $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.lifeIns}
+                                    className={`w-full rounded border ${!formRef.current.lifeIns ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.lifeIns = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Membership $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.membership}
+                                    className={`w-full rounded border ${!formRef.current.membership ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.membership = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Credit Card $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.cCard}
+                                    className={`w-full rounded border ${!formRef.current.cCard ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.cCard = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>House Maintan $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.houseMain}
+                                    className={`w-full rounded border ${!formRef.current.houseMain ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.houseMain = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-start items-center relative">
+                            <div className="w-1/4 mr-5">
+                                <label>Banking $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.banking}
+                                    className={`w-full rounded border ${!formRef.current.banking ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.banking = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Household $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.houseHold}
+                                    className={`w-full rounded border ${!formRef.current.houseHold ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.houseHold = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Pet Care $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.petCare}
+                                    className={`w-full rounded border ${!formRef.current.petCare ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.petCare = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Child Care $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.childCare}
+                                    className={`w-full rounded border ${!formRef.current.childCare ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.childCare = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Kids Activities $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.kidsActivity}
+                                    className={`w-full rounded border ${!formRef.current.kidsActivity ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.kidsActivity = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-start items-center relative">
+                            <div className="w-1/4 mr-5">
+                                <label>School Fees $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.schoolFees}
+                                    className={`w-full rounded border ${!formRef.current.schoolFees ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.schoolFees = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Weddings $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.weddings}
+                                    className={`w-full rounded border ${!formRef.current.weddings ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.weddings = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Taxes $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.taxes}
+                                    className={`w-full rounded border ${!formRef.current.taxes ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.taxes = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Lawn Care $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.lawnCare}
+                                    className={`w-full rounded border ${!formRef.current.lawnCare ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.lawnCare = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/4 mr-5">
+                                <label>Other $</label>
+                                <input
+                                    type="number"
+                                    value={formRef.current.otherFin?formRef.current.otherFin : 0 }
+                                    className={`w-full rounded border ${!formRef.current.otherFin ? 'border-red-500  ' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.otherFin = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                        </div>
+
                         <div className="flex w-full justify-start items-center mt-3">
                             <div className="w-1/3 mr-5">
                             <InputRadio 
                                 styleClass="flex flex-col mb-3" 
-                                formKey="optCurrentyear" 
+                                formKey="optFName" 
                                 formRef={regRef} 
                                 ui={ui} 
-                                name="optCurrentyear" 
-                                label="Is this all income from Current Year?" 
+                                name="optFName" 
+                                label="Is this all in your $ First Name only?" 
                                 values={['Yes', 'No']} 
                                 required="Yes/No is required" 
                             />
@@ -490,51 +742,92 @@ const MonthlyexpenseForm = React.memo(({ form, uiRefresh, alertRef, pageData, re
                             
                             </div>
                         </div>
-                        <div className="flex w-full justify-start items-center mt-3">
-                            <div className="w-1/3 mr-5">
-                                <label>Country</label>
-                                <ReactFlagsSelect
-                                    className={`w-full rounded border ${!formRef.current.country ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    selected={formRef.current.country}
-                                    onSelect={(code) => countryCallback(code, formRef.current)}
-                                    countries={["US", "IN"]}
-                                    placeholder="Country"
-                                />
-                            </div>
-                            <div className="w-1/3 mr-5">
-                                <label>State</label>
-                                <select className={`border w-full p-2 rounded ${!formRef.current.state ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.state} onChange={e => { formRef.current.state = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {stateList(formRef.current.country).map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3">
-                                <label>Zip/ Pin Code</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.zipcode}
-                                    className={`w-full rounded border ${!formRef.current.zipcode ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.zipcode = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                        </div>   
+
                         <div className="flex w-full justify-start items-center relative">
                             <div className="w-1/3 mr-5">
-                                <label>Name</label>
+                                <label>Total $</label>
                                 <input
-                                    type="text"
-                                    value={formRef.current.nameIncome}
-                                    className={`w-full rounded border ${!formRef.current.nameIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.nameIncome = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    type="number"
+                                    value={totalExpense(
+                                        formRef.current.water,
+                                        formRef.current.trash,
+                                        formRef.current.gas,
+                                        formRef.current.transport,
+                                        formRef.current.automa,
+                                        formRef.current.carReg,
+                                        formRef.current.carIns,
+                                        formRef.current.homeMa,
+                                        formRef.current.homeIns,
+                                        formRef.current.healthCare,
+                                        formRef.current.clothing,
+                                        formRef.current.gifts,
+                                        formRef.current.charitable,
+                                        formRef.current.transportFin,
+                                        formRef.current.compFin,
+                                        formRef.current.software,
+                                        formRef.current.entertainment,
+                                        formRef.current.vacation,
+                                        formRef.current.gymFin,
+                                        formRef.current.education,
+                                        formRef.current.gaming,
+                                        formRef.current.celebration,
+                                        formRef.current.beauty,
+                                        formRef.current.propTax,
+                                        formRef.current.movie,
+                                        formRef.current.phone,
+                                        formRef.current.lifeIns,
+                                        formRef.current.membership,
+                                        formRef.current.cCard,
+                                        formRef.current.houseMain,
+                                        formRef.current.banking,
+                                        formRef.current.houseHold,
+                                        formRef.current.petCare,
+                                        formRef.current.childCare,
+                                        formRef.current.kidsActivity,
+                                        formRef.current.schoolFees,
+                                        formRef.current.weddings,
+                                        formRef.current.taxes,
+                                        formRef.current.lawnCare,
+                                        formRef.current.otherFin,
+                                    )}
+                                    className={`w-full rounded border ${!formRef.current.total ? ' pointer-events-none' : 'border-blue-400'}`}
+                                    onChange={e => { formRef.current.total = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
-                            </div>  
-                            </div>                                                          
-
+                            </div>
+                            <div className="w-1/3 mr-5">
+                                <label>Month</label>
+                                <Datetime
+                                    className={`w-full rounded ${!formRef.current.monthFin ? 'invalidMonth' : ''}`}
+                                    placeholder="MM"
+                                    dateFormat="MM"
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                    inputProps={inputProps}
+                                    value={formRef.current.monthFin ? new Date(formRef.current.monthFin) : ''}
+                                    onChange={date => { formRef.current.monthFin = date; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/3">
+                            <label>Year</label>
+                                <Datetime
+                                    className={`w-full rounded ${!formRef.current.yearFin ? 'invalidYear' : ''}`}
+                                    placeholder="YYYY"
+                                    dateFormat="YYYY"
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                    inputProps={inputProps}
+                                    value={formRef.current.yearFin ? new Date(formRef.current.yearFin) : ''}
+                                    onChange={date => { formRef.current.yearFin = date; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                        </div>                        
+                    
                         <div className="flex w-full justify-start items-center mt-3">
                             <div className="flex flex-col w-full">
                                 <label>Comments</label>
                                 <textarea
                                     className={`w-full rounded border ${!formRef.current.incomeComments ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    placeholder="Note: Please Upload the bils"
                                     value={formRef.current.incomeComments}
                                     onChange={e => { formRef.current.incomeComments = e.currentTarget.value; subRefresh(Date.now()); }}
                                     rows={4}

@@ -322,8 +322,8 @@ const InsuranceForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordI
                             <input
                                     type="text"
                                     value={formRef.current.dedectibles}
-                                    className={`w-full rounded border ${!formRef.current.Dedectibles ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.Dedectibles = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    className={`w-full rounded border ${!formRef.current.dedectibles ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.dedectibles = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
                             </div>
                         </div>

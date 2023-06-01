@@ -8,16 +8,13 @@ import { formList } from "./formLists";
 import RegularForm from "./regularForm";
 import MyLocalStorage from "../../util/mylocalStorage";
 
-const RegularPanel = React.memo(({ regularAddedList, pageData, ui, uiRefresh, regularMenus }) =>
-{
+const RegularPanel = React.memo(({ regularAddedList, pageData, ui, uiRefresh }) => {
     const alertRef = useRef();
     const { scrollRef } = useContext(UserContext);
-    const addRegular = () =>
-    {
+    const addRegular = () => {
         let idx = regularAddedList.current.findIndex(rec => typeof rec.saved !== 'undefined');
-        if (idx !== -1)
-        {
-            ToastMessage({ type: 'error', message: 'Please save the regular!', timeout: 1000 });
+        if (idx !== -1) {
+            ToastMessage({ type: 'error', message: 'Please save New born Medical details!', timeout: 1000 });
             return;
         }
         regularAddedList.current.push({ ...formList.regular, id: nanoid() });
@@ -28,12 +25,16 @@ const RegularPanel = React.memo(({ regularAddedList, pageData, ui, uiRefresh, re
     return (
         <div className="w-full">
             <AlertDialog ref={alertRef} title={"Confirm to Delete?"} />
-            <h3 className="text-2xl">General Medical details of {MyLocalStorage.getLoginInfo().firstName} {MyLocalStorage.getLoginInfo().lastName}</h3>
-            <div className="flex justify-end">
+             <div className="flex w-full">
+                <div className="w-3/4 justify-center">
+                    <h3 className="text-2xl">General Details of {MyLocalStorage.getLoginInfo().firstName} {MyLocalStorage.getLoginInfo().lastName}</h3>
+                </div>
+                <div className="w-1/4 justify-end">
                 <button
-                    className="bg-dodge-d px-3 py-1.5 text-white text-sm shadow-md flex items-center hover:bg-dodge-b"
+                    className="bg-dodge-d px-3 py-1.5 text-white text-sm shadow-md flex items-end hover:bg-dodge-b"
                     onClick={addRegular}
-                ><i className='bx bx-plus mr-1 text-lg'></i> Add General Medical Details</button>
+                ><i className='bx bx-plus mr-1 text-lg'></i> Add General details</button>
+                </div>
             </div>
             {regularAddedList.current.map((item, idx) => (
                 <div className="mt-5" key={item.id}>
@@ -41,7 +42,6 @@ const RegularPanel = React.memo(({ regularAddedList, pageData, ui, uiRefresh, re
                         form={item}
                         ui={ui}
                         uiRefresh={uiRefresh}
-                        regularMenus={regularMenus}
                         alertRef={alertRef}
                         pageData={pageData}
                         recordIndex={idx}

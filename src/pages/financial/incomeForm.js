@@ -9,16 +9,19 @@ import { ButtonLoader } from "../../component/forms";
 import { apiPostCall } from "../../helper/API";
 import ModalDialog from "../../component/modal/modalDialog";
 import { nanoid } from "nanoid";
+import { useEffect } from "react";
 //import { formList } from "./formLists";
 // import { UserContext } from "../../util/maincontext";
-import { InputRadio } from "../../component/forms";
+//import { InputRadio } from "../../component/forms";
+//import {formAmounts} from './formAmounts';
 
-const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordIndex, incomeAddedList }) => {
-    const [ui] = useState(-1);
-    const regRef = useRef({ ...Constants.user_empty_form });
+const IncomeForm = React.memo(({form, uiRefresh, alertRef, pageData, recordIndex, incomeAddedList }) => {
+  // const [ui] = useState(-1);
+ //   const regRef = useRef({ ...Constants.user_empty_form });
     const formRef = useRef(form);
     const currentDom = useRef();
-    // const { scrollRef } = useContext(UserContext);
+  //  const formAmt = useRef(formAmounts);
+  //  const { scrollRef } = useContext(UserContext);
     const pageRef = useRef({
         isSaving: false,
         showProgressModal: false,
@@ -189,6 +192,14 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
             }, 'Confirm?', 'Are you sure to delete this Certificate details?');
         }
     }
+    
+    const calculate_fields = useRef(['earnedIncome','profitIncome','interestIncome','dividedIncome','rentalIncome','capitalIncome','royaltyIncome','otherIncome']);
+    useEffect(()=>{
+        //console.log('calculation=',calculate_fields.current.reduce((pass, itm)=>pass+parseInt(formRef.current[itm]||'0'), 0));
+        formRef.current.totalIncome = calculate_fields.current.reduce((pass, itm)=>pass+parseInt(formRef.current[itm]||'0'), 0)
+        subRefresh(Date.now());
+    },[{...formRef.current}])
+    
     return (
         <>
             {pageRef.current.showUploadWin &&
@@ -261,7 +272,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Earned Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.earnedIncome}
                                     className={`w-full rounded border ${!formRef.current.earnedIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.earnedIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -270,7 +281,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Profit Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.profitIncome}
                                     className={`w-full rounded border ${!formRef.current.profitIncome? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.profitIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -279,7 +290,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>Interest Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.interestIncome}
                                     className={`w-full rounded border ${!formRef.current.interestIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.interestIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -290,7 +301,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Divided Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.dividedIncome}
                                     className={`w-full rounded border ${!formRef.current.dividedIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.dividedIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -299,7 +310,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Rental Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.rentalIncome}
                                     className={`w-full rounded border ${!formRef.current.rentalIncome? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.rentalIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -308,7 +319,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>Capital Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.capitalIncome}
                                     className={`w-full rounded border ${!formRef.current.capitalIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.capitalIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -319,7 +330,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Royalty Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.royaltyIncome}
                                     className={`w-full rounded border ${!formRef.current.royaltyIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.royaltyIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -341,7 +352,7 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>Other Income</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.otherIncome}
                                     className={`w-full rounded border ${!formRef.current.otherIncome ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.otherIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -349,20 +360,38 @@ const IncomeForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             </div>
                         </div>
                         <div className="flex w-full justify-start items-center mt-3">
-                            <div className="w-1/3 mr-5">
-                            <InputRadio 
-                                styleClass="flex flex-col mb-3" 
-                                formKey="optCurrentyear" 
-                                formRef={regRef} 
-                                ui={ui} 
-                                name="optCurrentyear" 
-                                label="Is this all income from Current Year?" 
-                                values={['Yes', 'No']} 
-                                required="Yes/No is required" 
-                            />
+                        <div className="w-1/3 mr-5">   
+                        <label>Is this Month income</label>
+                                      
+                            <div className="flex ml-5">
+                               <div className="mr-5">
+                                    <input
+                                        className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                        checked={formRef.current.optCurrentyear}
+                                        onChange={e => { formRef.current.optCurrentyear = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label className="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div className="form-check">
+                                    <input
+                                        className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                        checked={!formRef.current.optCurrentyear}
+                                        onChange={e => { formRef.current.optCurrentyear = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label className="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
+                                        No
+                                    </label>
+                               
+                                </div>
+                                </div>
                             </div>
                             <div className="w-1/3 mr-5">
-                            
+                            <label>Total Income</label>
+                            <input
+                                    type="number"
+                                    value={formRef.current.totalIncome} />
                             </div>
                             <div className="w-1/3">
                             

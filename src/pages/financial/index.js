@@ -19,8 +19,8 @@ const PropertiesTabs = React.memo(() => {
     const assetsAddedList = useRef([]);
     const liabilityAddedList = useRef([]);
     const monthlyexpenseAddedList = useRef([]);
-    
     const { tabid } = useParams();
+    
     useEffect(() => {
         (async () => {
             let search = [{ _modal: 'FinancialList', _find: { userid: MyLocalStorage.getUserId() }, _mode: 'single', _select: 'income assets liability monthlyexpense' }];

@@ -297,7 +297,7 @@ const HinsuranceForm = React.memo(({ form, uiRefresh, alertRef, pageData, record
                                 <label>ID Number</label>
                                 <input
                                     type="text"
-                                    placeholder="GHIID-00001"
+                                    placeholder="Hospital ID"
                                     value={formRef.current.idNumber}
                                     className={`w-full rounded border ${!formRef.current.idNumber ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.idNumber = e.currentTarget.value; subRefresh(Date.now()); }}

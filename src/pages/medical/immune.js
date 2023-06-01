@@ -34,7 +34,7 @@ const ImmunePanel = React.memo(({ immuneAddedList, pageData, ui, uiRefresh }) =>
                     className="bg-dodge-d px-3 py-1.5 text-white text-sm shadow-md flex items-end hover:bg-dodge-b"
                     onClick={addImmune}
                 ><i className='bx bx-plus mr-1 text-lg'></i> Add Immune</button>
-                </div>
+              </div> 
             </div>
             {immuneAddedList.current.map((item, idx) => (
                 <div className="mt-5" key={item.id}>

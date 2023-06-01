@@ -189,6 +189,19 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
             }, 'Confirm?', 'Are you sure to delete this Certificate details?');
         }
     }
+
+
+
+
+    //
+    const totalAmt = (cash_eq, cash, inven, inves, prop, vehicle, furniture, other) => {
+        const total = Number(0) + Number(cash_eq) + Number(cash) + Number(inven) + Number(inves) + Number(prop) + Number(vehicle) + Number(furniture) + Number(other);
+        return total;
+    }
+    //
+
+
+
     return (
         <>
             {pageRef.current.showUploadWin &&
@@ -261,7 +274,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Cash equivalents $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.cashEqual}
                                     className={`w-full rounded border ${!formRef.current.cashEqual ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.cashEqual = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -270,7 +283,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Cash</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.profitIncome}
                                     className={`w-full rounded border ${!formRef.current.profitIncome? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.profitIncome = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -279,7 +292,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>Inventory</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.inventory}
                                     className={`w-full rounded border ${!formRef.current.inventory ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.inventory = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -290,7 +303,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Investments $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.investments}
                                     className={`w-full rounded border ${!formRef.current.investments ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.investments = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -299,7 +312,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Property / Plant / Equipments</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.plantAssets}
                                     className={`w-full rounded border ${!formRef.current.plantAssets ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.plantAssets = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -308,7 +321,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>VehiclesAssets</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.vehiclesAssets}
                                     className={`w-full rounded border ${!formRef.current.vehiclesAssets ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.vehiclesAssets = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -319,7 +332,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3 mr-5">
                                 <label>Furniture</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.furnitureAssets}
                                     className={`w-full rounded border ${!formRef.current.furnitureAssets ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.furnitureAssets = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -341,7 +354,7 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                             <div className="w-1/3">
                                 <label>Other / Parents $</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     value={formRef.current.otherAssets}
                                     className={`w-full rounded border ${!formRef.current.otherAssets ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.otherAssets = e.currentTarget.value; subRefresh(Date.now()); }}
@@ -350,16 +363,31 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                         </div>
                         <div className="flex w-full justify-start items-center mt-3">
                             <div className="w-1/3 mr-5">
-                            <InputRadio 
-                                styleClass="flex flex-col mb-3" 
-                                formKey="optAssetsyear" 
-                                formRef={regRef} 
-                                ui={ui} 
-                                name="optAssetsyear" 
-                                label="Is this all Assets from Current Year?" 
-                                values={['Yes', 'No']} 
-                                required="Yes/No is required" 
-                            />
+                            
+                           <label>Is this all Assets from Current Year?</label>
+                                      
+                                      <div className="flex ml-5">
+                                         <div class="mr-5">
+                                              <input
+                                                  class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                                                  checked={formRef.current.optAssetsyear}
+                                                  onChange={e => { formRef.current.optAssetsyear = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                              />
+                                              <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
+                                                  Yes
+                                              </label>
+                                          </div>
+                                          <div class="form-check">
+                                              <input
+                                                  class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                                  checked={!formRef.current.optAssetsyear}
+                                                  onChange={e => { formRef.current.optAssetsyear = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                              />
+                                              <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
+                                                  No
+                                              </label>
+                                          </div>
+                                          </div>                         
                             </div>
                             <div className="w-1/3 mr-5">
                             
@@ -405,7 +433,18 @@ const AssetsForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordInde
                                     className={`w-full rounded border ${!formRef.current.nameAssets ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     onChange={e => { formRef.current.nameAssets = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
-                            </div>  
+                            </div>                              
+                            <div className="w-1/3 mr-5">
+                                <label>Total Assets $</label>
+                                <input
+                                    type="number"
+                                    value={totalAmt(formRef.current.cashEqual, formRef.current.profitIncome, formRef.current.inventory, formRef.current.investments, formRef.current.plantAssets, formRef.current.vehiclesAssets, formRef.current.furnitureAssets, formRef.current.otherAssets)}
+                                    className={`w-full rounded border ${!formRef.current.total ? ' pointer-events-none' : 'border-blue-400'}`}
+                                    onChange={e => { formRef.current.total = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/3 mr-5">
+                           </div>
                             </div>                                                          
 
                         <div className="flex w-full justify-start items-center mt-3">

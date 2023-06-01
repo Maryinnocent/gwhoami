@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
-import Datetime from "react-datetime";
-import ReactFlagsSelect from "react-flags-select";
-import Constants from "../../helper/Constants";
+//import Datetime from "react-datetime";
+//import ReactFlagsSelect from "react-flags-select";
+//import Constants from "../../helper/Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faFile, faFileAlt, faFileExcel, faFileImage, faFilePdf, faFilePowerpoint, faFileWord, faSave, faSearch, faTrashAlt, faUpload } from "@fortawesome/free-solid-svg-icons";
 import ToastMessage from "../../toast";
@@ -10,9 +10,43 @@ import { apiPostCall } from "../../helper/API";
 import ModalDialog from "../../component/modal/modalDialog";
 import { nanoid } from "nanoid";
 import { formList } from "./formLists";
+import { Checkbox } from "../medical/checkbox";
+
 // import { UserContext } from "../../util/maincontext";
+//import { Checkbox } from "./checkbox";
 
 const HealthinfoForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordIndex, healthinfoAddedList }) => {
+   
+    const [userinfo, setUserInfo] = useState({
+        healthInfos: [],
+        response: [],
+      });
+      
+      const handleChange = (e) => {
+        // Destructuring
+        const { value, checked } = e.target;
+        const { healthInfos } = userinfo;
+          
+        console.log(`${value} is ${checked}`);
+         
+        // Case 1 : The user checks the box
+        if (checked) {
+          setUserInfo({
+            healthInfos: [...healthInfos, value],
+            response: [...healthInfos, value],
+              
+          });
+        }
+        
+        // Case 2  : The user unchecks the box
+        else {
+          setUserInfo({
+            healthInfos: healthInfos.filter((e) => e !== value),
+            response: healthInfos.filter((e) => e !== value),
+          });
+        }
+      }
+
     const formRef = useRef(form);
     const currentDom = useRef();
     // const { scrollRef } = useContext(UserContext);
@@ -51,18 +85,18 @@ const HealthinfoForm = React.memo(({ form, uiRefresh, alertRef, pageData, record
         progress.current.value = 0;
         subRefresh(Date.now());
     }
-    const countryCallback = (code, itm, idx) => {
-        itm.state = '';
-        itm.country = code;
-        subRefresh(Date.now());
-    }
-    const stateList = (country) => {
-        return country === 'US' ? [...Constants.usa] : country === 'IN' ? [...Constants.india] : [];
-    }
-    let inputProps = {
-        placeholder: 'MM/DD/YYYY',
-        className: "w-full rounded"
-    };
+   // const countryCallback = (code, itm, idx) => {
+   //     itm.state = '';
+   //     itm.country = code;
+   //     subRefresh(Date.now());
+   // }
+   // const stateList = (country) => {
+   //     return country === 'US' ? [...Constants.usa] : country === 'IN' ? [...Constants.india] : [];
+   // }
+    //let inputProps = {
+    //    placeholder: 'MM/DD/YYYY',
+    //    className: "w-full rounded"
+   // };
     const saveHealthinfo = () => {
         if (currentDom.current.querySelector('.err-input')) {
             ToastMessage({ type: 'error', message: `Please fill the required fields`, timeout: 1200 });
@@ -74,7 +108,7 @@ const HealthinfoForm = React.memo(({ form, uiRefresh, alertRef, pageData, record
         let isNew = typeof arr['saved'] !== 'undefined';
         if (isNew) delete arr['saved'];
         delete arr['isSubmit'];
-        let params = isNew ? [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id }, _data: { $push: { 'helthinfo': arr } } }] :
+        let params = isNew ? [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id }, _data: { $push: { 'healthinfo': arr } } }] :
             [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id, 'healthinfo.id': arr.id }, _data: { $set: { "healthinfo.$": arr } }, _options: { upsert: false } }];
         (async () => {
             const res = await apiPostCall('/api/common/common_mutiple_insert', { _list: params });
@@ -186,6 +220,8 @@ const HealthinfoForm = React.memo(({ form, uiRefresh, alertRef, pageData, record
             }, 'Confirm?', 'Are you sure to delete this Healthinfo?');
         }
     }
+    
+        
     return (
         <>
             {pageRef.current.showUploadWin &&
@@ -255,195 +291,366 @@ const HealthinfoForm = React.memo(({ form, uiRefresh, alertRef, pageData, record
                 <div className="pt-5 pb-3">
                     <form>
                         <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>First Name</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.firstName}
-                                    className={`w-full rounded border ${!formRef.current.firstName ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.firstName = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
+                            <div className="w-1/3 mr-5"> 
                             </div>
                             <div className="w-1/3 mr-5">
-                                <label>Last Name</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.lastName}
-                                    className={`w-full rounded border ${!formRef.current.lastName ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.lastName = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
                             </div>
-                            <div className="w-1/3">
-                                <label>Type [Mr/Mrs]</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.healthinfoType ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.healthinfoType} onChange={e => { formRef.current.healthinfoType = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.healthinfoType.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
+                            <div className="w-1/3 mr-5">
+                            <label>Do you have any allergies?</label>
+                            <div className="flex ml-5">
+                                <div class="mr-5">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault1" id="flexRadioDefault1"
+                                        checked={formRef.current.anyAllergies}
+                                        onChange={e => { formRef.current.anyAllergies = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault1" id="flexRadioDefault2"
+                                        checked={!formRef.current.anyAllergies}
+                                        onChange={e => { formRef.current.anyAllergies = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
+                                        No
+                                    </label>
+                                </div>
+                                </div>
                             </div>
                         </div>
                         <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>Age</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.age}
-                                    className={`w-full rounded border ${!formRef.current.age ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.age = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                            <div className="w-1/3 mr-5">
-                                <label>Height</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.height}
-                                    className={`w-full rounded border ${!formRef.current.height? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.height = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                            <div className="w-1/3">
-                            <label>Weight</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.weight}
-                                    className={`w-full rounded border ${!formRef.current.weight ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.weight = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex w-full justify-start items-center mt-3">
-                            <div className="w-1/3 mr-5">
-                                <label>Country</label>
-                                <ReactFlagsSelect
-                                    className={`w-full rounded border ${!formRef.current.country ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    selected={formRef.current.country}
-                                    onSelect={(code) => countryCallback(code, formRef.current)}
-                                    countries={["US", "IN"]}
-                                    placeholder="Country"
-                                />
-                            </div>
-                            <div className="w-1/3 mr-5">
-                                <label>State</label>
-                                <select className={`border w-full p-2 rounded ${!formRef.current.state ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.state} onChange={e => { formRef.current.state = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {stateList(formRef.current.country).map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3">
-                                <label>Zip Code</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.zipcode}
-                                    className={`w-full rounded border ${!formRef.current.zipcode ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.zipcode = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex w-full justify-start items-center mt-3">
-                            <div className="w-1/3 mr-5">
-                            <label>Hospital Name</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.hospitalName ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.hospitalName} onChange={e => { formRef.current.hospitalName = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.hospitalName.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3 mr-5">
-                            <label>Blood Group</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.bloodGroup ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.bloodGroup} onChange={e => { formRef.current.bloodGroup = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.bloodGroup.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3">
-                            <label>Date of birth</label>
-                                <Datetime
-                                    className={`w-full rounded ${!formRef.current.from ? 'invalidyear' : ''}`}
-                                    placeholder="MM/DD/YYYY"
-                                    dateFormat="MM/DD/YYYY"
-                                    closeOnSelect={true}
-                                    timeFormat={false}
-                                    inputProps={inputProps}
-                                    value={formRef.current.from ? new Date(formRef.current.from) : ''}
-                                    onChange={date => { formRef.current.from = date; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex w-full justify-start items-center mt-3">
-                            <div className="w-1/3 mr-5">
-                            <label>Name of the Doctor</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.doctorName ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.doctorName} onChange={e => { formRef.current.doctorName = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.doctorName.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3 mr-5">
-                            <label>APGAR Score</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.apgarScore ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.apgarScore} onChange={e => { formRef.current.apgarScore = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.apgarScore.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                            <div className="w-1/3">
-                            <label>Other Score</label>
-                                <select
-                                    className={`border w-full p-2 rounded ${!formRef.current.otherScore ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.otherScore} onChange={e => { formRef.current.otherScore = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                    <option value=""></option>
-                                    {formList.otherScore.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                        <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>Blood Pressure</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.bloodPressure}
-                                    className={`w-full rounded border ${!formRef.current.bloodPressure ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.bloodPressure = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                            <div className="w-1/3 mr-5">
-                                <label>Body Mass index[kg/m2]</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.bodymIndex}
-                                    className={`w-full rounded border ${!formRef.current.bodymIndex ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.bodymIndex = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                            <div className="w-1/3">
-                            <label>Anthem BCBS</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.bcbs}
-                                    className={`w-full rounded border ${!formRef.current.bcbs? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.bcbs = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex w-full justify-start items-center relative">
-                            <div className="w-1/3 mr-5">
-                                <label>Prosperity Ave[CVS]</label>
-                                <input
-                                    type="text"
-                                    value={formRef.current.medicalshop}
-                                    className={`w-full rounded border ${!formRef.current.medicalshop? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    onChange={e => { formRef.current.medicalshop = e.currentTarget.value; subRefresh(Date.now()); }}
-                                />
-                            </div>
-                            <div className="w-1/3 mr-5">
+                        <div className="w-full">
+                        <table className="table-fixed border-collapse w-full text-sm">
+                            <thead>
+                                <tr>
+                                    <th className="bg-blue-100 border border-gray-400 w-20 px-5 py-1 text-center">Condition</th>
+                                    <th className="bg-blue-100 border border-gray-400 w-60 text-center">Comment</th>
+                                    <th className="w-12"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td className="bg-red-100 border border-gray-400 w-20 px-5 py-1 text-center">
+                                    Severe Allergies</td> 
                                 
+                                <td className="bg-red-100 border border-gray-400">
+                                    <div className="mr-5">                                   
+                                    <input
+                                         type="checkbox"
+                                         name="healthInfos"
+                                         value="Food"
+                                         id="flexCheckDefault"
+                                         checked={formRef.current.food}
+                                        onChange={e => { formRef.current.food = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label htmlFor="flexCheckDefault">Food</label>
+                                    <input
+                                        //value={userinfo.response}
+                                        type="checkbox"
+                                        name="healthInfos"
+                                        value="Insect"
+                                        id="flexCheckDefault"
+                                        checked={formRef.current.insect}
+                                        onChange={e => { formRef.current.insect = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                        />
+                                        <label htmlFor="flexCheckDefault">Insect</label>
+
+                                        <input
+                                         type="checkbox"
+                                         name="healthInfos"
+                                         value="latex"
+                                         id="flexCheckDefault"
+                                         checked={formRef.current.latex}
+                                        onChange={e => { formRef.current.latex = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label htmlFor="flexCheckDefault">Latex</label>
+                                    </div>
+                                    <div className="mr-5">
+                                        <h3>Prescribed?</h3> 
+                                      <input
+                                         type="checkbox"
+                                         name="healthInfos"
+                                         value="prescribed"
+                                         id="flexCheckDefault"
+                                         checked={formRef.current.prescribed}
+                                        onChange={e => { formRef.current.prescribed = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label htmlFor="flexCheckDefault">yes</label>
+                                    </div>
+
+                                    <div className="mr-5">
+                                            <h3>Injection previously given?</h3>
+                                        <input
+                                             class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault3" id="flexRadioDefault3"
+                                            checked={formRef.current.prevInjection}
+                                            onChange={e => { formRef.current.prevInjection = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                        />
+                                        <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault3">
+                                            Yes
+                                        </label>
+                                    </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault3" id="flexRadioDefault4"
+                                        checked={!formRef.current.prevInjection}
+                                        onChange={e => { formRef.current.prevInjection = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault4">
+                                        No
+                                    </label>
+                                </div>
+                                <h3>Date :-----------</h3>
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td className="bg-red-100 border border-gray-400 w-20 px-5 py-1 text-center">
+                                    Asthma</td> 
+                                   <td className="bg-red-100 border border-gray-400">
+                                    <div className="mr-5">
+                                        <h3>Inhaler prescribed?</h3>
+                                        <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault5" id="flexRadioDefault5"
+                                        checked={formRef.current.prevInhaler}
+                                        onChange={e => { formRef.current.prevInhaler = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault5">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault5" id="flexRadioDefault6"
+                                        checked={!formRef.current.prevInhaler}
+                                        onChange={e => { formRef.current.prevInhaler = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault6">
+                                        No
+                                    </label>
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div className="mr-5">
+                                        <h3>Nebulizer Treatment prescribed?</h3>
+                                       <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault7" id="flexRadioDefault7"
+                                        checked={formRef.current.isNebulizer}
+                                        onChange={e => { formRef.current.isNebulizer = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault7">
+                                        Yes
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault7" id="flexRadioDefault8"
+                                        checked={!formRef.current.isNebulizer}
+                                        onChange={e => { formRef.current.isNebulizer = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault8">
+                                        No
+                                    </label>
+
+                                    </div>
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td className="bg-red-100 border border-gray-400 w-20 px-5 py-1 text-center">
+                                    diabetes</td> 
+                                <td className="bg-red-100 border border-gray-400">
+                                    <div className="mr-5">
+                                        <h3>Type1</h3>
+                                       <input
+                                         type="checkbox"
+                                         name="healthInfos"
+                                         value="type1"
+                                         id="flexCheckDefault"
+                                         checked={formRef.current.type1}
+                                         onChange={e => { formRef.current.type1 = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label htmlFor="flexCheckDefault"></label>
+                                        <h3>Type2</h3>
+                                        <input
+                                           type="checkbox"
+                                            name="healthInfos"
+                                            value="type2"
+                                            id="flexCheckDefault"
+                                            checked={formRef.current.type2}
+                                            onChange={e => { formRef.current.type2 = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                        <label htmlFor="flexCheckDefault"></label>
+                                    </div>
+                                    <div className="mr-5">
+                                        <h3>Nebulizer Treatment prescribed?</h3>
+                                        <input
+                                           class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault9" id="flexRadioDefault9"
+                                           checked={formRef.current.isNebulizertreat}
+                                           onChange={e => { formRef.current.isNebulizertreat = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                        />
+                                        <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault9">
+                                           Yes
+                                        </label>
+                                    </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault9" id="flexRadioDefault10"
+                                        checked={!formRef.current.isNebulizertreat}
+                                        onChange={e => { formRef.current.isNebulizertreat = !e.currentTarget.checked; subRefresh(Date.now()); }}
+                                    />
+                                    <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault10">
+                                        No
+                                    </label>
+                                </div>
+                                </td>  
+                            </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div className="flex w-full justify-start mt-5 items-center relative">
+                       </div>
+
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="w-1/2 mr-5">
+                            <input
+                                        //value={userinfo.response}
+                                        type="checkbox"
+                                        name="healthInfos"
+                                        value="cancer"
+                                        id="flexCheckDefault"
+                                        checked={formRef.current.cancer}
+                                        onChange={e => { formRef.current.cancer = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                        />
+                                        <label htmlFor="flexCheckDefault">Cancer</label>
                             </div>
-                            <div className="w-1/3">
-                            
+
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="fibrocis"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.fibrocis}
+                                    onChange={e => { formRef.current.fibrocis = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                />
+                                <label htmlFor="flexCheckDefault">Fibrocis</label>
                             </div>
                         </div>
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="DentalOral"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.dentalOral}
+                                    onChange={e => { formRef.current.dentalOral = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Dental/oral Health Condition</label>
+                            </div>
+
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="earNose"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.earNose}
+                                    onChange={e => { formRef.current.earNose = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Ear Nose & Throat</label>
+                            </div>
+                        </div>
+                        
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="LungDisease"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.lungDecease}
+                                    onChange={e => { formRef.current.lungDecease = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Lung Disease (other than Asthma)</label>
+                            </div>
+
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="MobileImpairment"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.MobileImpairment}
+                                    onChange={e => { formRef.current.MobileImpairment = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Mobile Impairment</label>
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="DietaryPreference"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.DietaryPreference}
+                                    onChange={e => { formRef.current.DietaryPreference = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Food / Dietary Preference</label>
+                            </div>
+
+                            <div className="w-1/2 mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="Blood Disorder"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.bloodDisorder}
+                                    onChange={e => { formRef.current.bloodDisorder = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Blood Disorder</label>
+                           </div>
+                        </div>
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="Gastrointestinal"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.gastrointestinal}
+                                    onChange={e => { formRef.current.gastrointestinal = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Gastrointestinal / Stomach / Bowel</label>
+                           </div>
+                        </div>
+                        <div className="flex w-full justify-start ml-10 items-center relative">
+                            <div className="mr-5">
+                            <input
+                                    //value={userinfo.response}
+                                    type="checkbox"
+                                    name="healthInfos"
+                                    value="Hearing"
+                                    id="flexCheckDefault"
+                                    checked={formRef.current.hearing}
+                                    onChange={e => { formRef.current.hearing = e.currentTarget.checked; subRefresh(Date.now()); }}
+                                 />
+                                 <label htmlFor="flexCheckDefault">Hearing Conditions Heart / Cardiovascular</label>
+                           </div>
+                        </div>
+                                               
                         <div className="flex w-full justify-start items-center mt-3">
                             <div className="flex flex-col w-full">
                                 <label>Comments/Recent Activity Weight and Length, Eye Drops, Vitamin K, Newborn Screening, Hepatities Vaccine</label>

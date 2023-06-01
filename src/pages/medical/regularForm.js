@@ -1,25 +1,24 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
-
+import React, { useCallback, useRef, useState } from "react";
 import Datetime from "react-datetime";
 import ReactFlagsSelect from "react-flags-select";
 import Constants from "../../helper/Constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faFile, faFileAlt, faFileExcel, faFileImage, faFilePdf, faFilePowerpoint, faFileWord, faSave, faSearch, faTrashAlt, faUpload } from "@fortawesome/free-solid-svg-icons";
 import ToastMessage from "../../toast";
-import { ButtonLoader } from "../../component/forms";
+import { ButtonLoader} from "../../component/forms";
 import { apiPostCall } from "../../helper/API";
 import ModalDialog from "../../component/modal/modalDialog";
 import { nanoid } from "nanoid";
-import { UserContext } from "../../util/maincontext";
 import { formList } from "./formLists";
+// import { UserContext } from "../../util/maincontext";
+import MyLocalStorage from "../../util/mylocalStorage";
 
 
-
-const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageData, recordIndex, regularAddedList }) =>
-{
+const RegularForm = React.memo(({ form, uiRefresh, alertRef, pageData, recordIndex, regularAddedList }) => {
+    
     const formRef = useRef(form);
     const currentDom = useRef();
-    const { scrollRef } = useContext(UserContext);
+    // const { scrollRef } = useContext(UserContext);
     const pageRef = useRef({
         isSaving: false,
         showProgressModal: false,
@@ -33,15 +32,13 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
     const progress_ref = useRef();
     const file_ref = useRef();
     const progress = useRef({ value: 0 });
-    const progressHandler = (event) =>
-    {
+    const progressHandler = (event) => {
         let percent = (event.loaded / event.total) * 100;
         progress.current.value = Math.round(percent);
         subRefresh(Date.now());
     }
 
-    const completeHandler = (event) =>
-    {
+    const completeHandler = (event) => {
         regularAddedList.current[recordIndex].documents.push({ ...pageRef.current.file_record });
         pageRef.current.file_record = {}
         uiRefresh(Date.now());
@@ -49,8 +46,7 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
     }
     const errorHandler = (event) => { }
     const abortHandler = (event) => { }
-    const fileChange = (evt) =>
-    {
+    const fileChange = (evt) => {
         let file = evt.currentTarget.files[0];
         if (typeof file === 'undefined') return;
         pageRef.current.selFileName = file.name;
@@ -58,78 +54,20 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
         progress.current.value = 0;
         subRefresh(Date.now());
     }
-
-    const addBlood = (blood) =>
-    {
-        if (document.querySelector('.err-input'))
-        {
-            ToastMessage({ type: 'error', message: 'Please fill the required fields.' })
-            return;
-        }
-        if (!formRef.current.bloods)
-        {
-            formRef.current.bloods = [{ id: nanoid(), blood, year: '', place: '', country: '', state: '', zipcode: '' }]
-        } else
-        {
-            formRef.current.bloods.push({ id: nanoid(), blood, year: '', place: '', country: '', state: '', zipcode: '' });
-        }
-        regularMenus.current.splice(regularMenus.current.indexOf(blood), 1);
-        subRefresh(Date.now());
-        setTimeout(() => scrollRef.current.scrollToBottom(), 200);
-    }
-    const countryCallback = (code, itm, idx) =>
-    {
+    const countryCallback = (code, itm, idx) => {
         itm.state = '';
         itm.country = code;
         subRefresh(Date.now());
     }
-    const stateList = (country) =>
-    {
+    const stateList = (country) => {
         return country === 'US' ? [...Constants.usa] : country === 'IN' ? [...Constants.india] : [];
     }
     let inputProps = {
-        placeholder: 'Year',
+        placeholder: 'MM/DD/YYYY',
         className: "w-full rounded"
     };
-    const yearRange = () =>
-    {
-        const years = formRef.current.bloods.map(i => i.year || 0);
-        const min = Math.min(...years);
-        const max = Math.max(...years);
-        let min_val = 0, max_val = 0;
-        if (min === 0 && max === 0) return <>&nbsp;</>
-        if (min === 0 && max > 0) { min_val = max; max_val = max }
-        else { min_val = min; max_val = max; }
-        return (
-            <>
-                <span>{min_val}</span>
-                <div className="px-2 text-center">~</div>
-                <span>{max_val}</span>
-            </>
-        );
-    }
-    const removeBlood = (idx) =>
-    {
-        alertRef.current.showConfirm((res) =>
-        {
-            if (res === 'no') return;
-            let deleteid = formRef.current.bloods[idx].id;
-            formRef.current.bloods.splice(idx, 1);
-            let sm = [...formList.regularMenu];
-            regularAddedList.current.map(s => s.bloods.map(c => c.blood)).map(arr => arr.forEach(itm =>
-            {
-                sm.splice(sm.indexOf(itm), 1);
-            }));
-            regularMenus.current = sm;
-            subRefresh(Date.now());
-            let params = [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id }, _data: { $pull: { [`regular.${recordIndex}.bloods`]: { id: deleteid } } } }];
-            apiPostCall('/api/common/common_mutiple_insert', { _list: params });
-        }, 'Sure?', 'Are you sure to remove this Blood Group and Details?');
-    }
-    const saveRegular = () =>
-    {
-        if (currentDom.current.querySelector('.err-input'))
-        {
+    const saveRegular = () => {
+        if (currentDom.current.querySelector('.err-input')) {
             ToastMessage({ type: 'error', message: `Please fill the required fields`, timeout: 1200 });
             return;
         }
@@ -141,15 +79,12 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
         delete arr['isSubmit'];
         let params = isNew ? [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id }, _data: { $push: { 'regular': arr } } }] :
             [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id, 'regular.id': arr.id }, _data: { $set: { "regular.$": arr } }, _options: { upsert: false } }];
-        (async () =>
-        {
+        (async () => {
             const res = await apiPostCall('/api/common/common_mutiple_insert', { _list: params });
-            if (res.isError)
-            {
+            if (res.isError) {
                 ToastMessage({ type: "error", message: res.Error.response.data.message, timeout: 2000 });
                 return;
-            } else
-            {
+            } else {
                 arr.isSubmit = true;
                 let newlist = [...regularAddedList.current];
                 newlist[recordIndex] = arr;
@@ -157,23 +92,20 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                 pageRef.current.isSaving = false;
                 formRef.current = { ...arr }
                 uiRefresh(Date.now());
-                ToastMessage({ type: 'success', message: 'general Medical Details added succesfully!', timeout: 1200 });
+                ToastMessage({ type: 'success', message: 'Regular Deatails added succesfully!', timeout: 1200 });
             }
         })();
     }
-    const openFileUpload = () =>
-    {
-        if (typeof formRef.current.saved !== 'undefined')
-        {
-            ToastMessage({ type: 'error', message: 'Save the General Medical Details and upload!', timeout: 1200 });
+    const openFileUpload = () => {
+        if (typeof formRef.current.saved !== 'undefined') {
+            ToastMessage({ type: 'error', message: 'Save the regular and upload!', timeout: 1200 });
             return;
         }
         pageRef.current.showProgressModal = true;
         subRefresh(Date.now());
     }
     const modalRef = useRef();
-    const modalClose = useCallback((name, idx) =>
-    {
+    const modalClose = useCallback((name, idx) => {
         pageRef.current.title = '';
         pageRef.current.selFileName = '';
         pageRef.current.showProgress = false;
@@ -182,14 +114,11 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
         pageRef.current.showProgressModal = !pageRef.current.showProgressModal; subRefresh(Date.now());
         // eslint-disable-next-line
     }, []);
-    const modalSave = useCallback(() =>
-    {
-        if (!pageRef.current.title)
-        {
+    const modalSave = useCallback(() => {
+        if (!pageRef.current.title) {
             ToastMessage({ type: 'error', message: 'Please enter title', timeout: 1000 });
             return;
-        } else if (file_ref.current.files.length === 0)
-        {
+        } else if (file_ref.current.files.length === 0) {
             ToastMessage({ type: 'error', message: 'Please select document to upload', timeout: 1000 });
             return;
         }
@@ -205,8 +134,7 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
         formdata.append("_id", pageData.current._id);
         formdata.append("recindex", recordIndex);
         //subRefresh(Date.now());
-        (async () =>
-        {
+        (async () => {
             var ajax = new XMLHttpRequest();
             ajax.upload.addEventListener("progress", progressHandler, false);
             ajax.addEventListener("load", completeHandler, false);
@@ -217,18 +145,28 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
         })();
         // eslint-disable-next-line
     }, []);
-    const openfilePicker = () =>
-    {
+    // const calculateAge = (birthDate, otherDate) => {
+    //     birthDate = new Date(birthDate);
+    //     otherDate = new Date(otherDate);
+    
+    //     var years = (otherDate.getFullYear() - birthDate.getFullYear());
+    
+    //     if (otherDate.getMonth() < birthDate.getMonth() || 
+    //         otherDate.getMonth() == birthDate.getMonth() && otherDate.getDate() < birthDate.getDate()) {
+    //         years--;
+    //     }
+    
+    //     return years;
+    // }
+    const openfilePicker = () => {
         file_ref.current.click()
     }
-    const modalViewClose = useCallback(() =>
-    {
+    const modalViewClose = useCallback(() => {
         pageRef.current.showUploadWin = !pageRef.current.showUploadWin;
         subRefresh(Date.now());
         // eslint-disable-next-line
     }, []);
-    const getFileIcon = (ext) =>
-    {
+    const getFileIcon = (ext) => {
         return ext === '.pdf' ? faFilePdf :
             ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.bmp' || ext === 'gif' ? faFileImage :
                 ext === '.doc' || ext === '.docx' ? faFileWord :
@@ -236,42 +174,52 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                         ext === '.ppt' || ext === '.pptx' ? faFilePowerpoint :
                             faFile;
     }
-    const downloadFile = (itm) =>
-    {
+    const downloadFile = (itm) => {
         window.location.href = `${process.env.REACT_APP_API_URL}/api/client/download_document?oriname=${itm.oriname}&filename=${itm.filename}&dt=${Date.now()}`
     }
-    const removeFile = (itm, idx) =>
-    {
-        alertRef.current.showConfirm((res) =>
-        {
+    const removeFile = (itm, idx) => {
+        alertRef.current.showConfirm((res) => {
             if (res === 'no') return;
             regularAddedList.current[recordIndex].documents.splice(idx, 1);
             subRefresh(Date.now());
             apiPostCall('/api/client/delete_document', { _id: pageData.current._id, recindex: recordIndex, fileid: itm.id, filename: itm.filename });
         }, 'Confirm?', 'Are you sure to delete this file?');
     }
-    const removeRegular = () =>
-    {
-        if (regularAddedList.current[recordIndex].saved === false)
-        {
-            alertRef.current.showConfirm((res) =>
-            {
+    const removeRegular = () => {
+        if (regularAddedList.current[recordIndex].saved === false) {
+            alertRef.current.showConfirm((res) => {
                 if (res === 'no') return;
                 regularAddedList.current.splice(recordIndex, 1);
                 uiRefresh(Date.now());
-            }, 'Confirm?', 'Are you sure to delete this Details?');
-        } else
-        {
-            alertRef.current.showConfirm((res) =>
-            {
+            }, 'Confirm?', 'Are you sure to delete this Regular?');
+        } else {
+            alertRef.current.showConfirm((res) => {
                 if (res === 'no') return;
                 let params = [{ _modal: 'MedicalList', _condition: 'update', _find: { _id: pageData.current._id }, _data: { $pull: { 'regular': { id: formRef.current.id } } } }];
                 apiPostCall('/api/common/common_mutiple_insert', { _list: params });
                 regularAddedList.current.splice(recordIndex, 1);
                 uiRefresh(Date.now());
-            }, 'Confirm?', 'Are you sure to delete this Details?');
+            }, 'Confirm?', 'Are you sure to delete this New born?');
         }
     }
+
+    const calculateAge = (birthDate, otherDate) => {
+        birthDate = new Date(birthDate);
+        otherDate = new Date(otherDate);
+    
+        var years = (otherDate.getFullYear() - birthDate.getFullYear());
+    
+        if ((otherDate.getMonth() < birthDate.getMonth()) || 
+            (otherDate.getMonth() === birthDate.getMonth()) && 
+            (otherDate.getDate() < birthDate.getDate())) {
+            years--;
+        }
+    
+        return years;
+    }
+    
+
+
     return (
         <>
             {pageRef.current.showUploadWin &&
@@ -335,25 +283,13 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                 </ModalDialog>}
             <div className="p-5 border rounded shadow-md relative" ref={currentDom}>
                 <i
-                    className='bx bxs-trash absolute right-12 top-2 text-2xl cursor-pointer text-gray-300 hover:text-red-500'
+                    className='bx bxs-trash absolute right-2 top-2 text-2xl cursor-pointer text-gray-300 hover:text-red-500'
                     onClick={removeRegular}
                 ></i>
-                <div className="flex justify-between items-center w-full mt-5">
-                    <div>
-
-                        <div className="px-3 py-1 flex justify-start items-center text-sm" onClick={_ => addBlood()}>
-                            <button
-                                className="bg-red-600 w-32 py-1.5 h-8 text-white text-sm shadow-md flex justify-center items-center hover:bg-red-500"
-                            >
-                                <i className='bx bx-plus mr-1 text-lg'></i> Add Blood Group
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
                 <div className="pt-5 pb-3">
+                    
                     <form>
-                        <div className="flex w-full justify-start items-center mt-3">
+                    <div className="flex w-full justify-start items-center mt-3">
                             <div className="w-1/3 mr-5">
                                 <label>Hospital Name</label>
                                 <select
@@ -370,104 +306,88 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                     {formList.bloodGroup.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
                                 </select>
                             </div>
-                            <div className="w-1/3">
-                                <label>Date of birth</label>
-                                <Datetime
-                                    className={`w-full rounded ${!formRef.current.dob ? 'invalidyear' : ''}`}
-                                    placeholder="MM/DD/YYYY"
-                                    dateFormat="MM/DD/YYYY"
-                                    closeOnSelect={true}
-                                    timeFormat={false}
-                                    inputProps={inputProps}
-                                    value={formRef.current.dob ? new Date(formRef.current.dob) : ''}
-                                    onChange={date => { formRef.current.dob = date; subRefresh(Date.now()); }}
+                            <div className="w-1/3 mr-5">
+                                <label>Gender Type</label>
+                                <select
+                                    className={`border w-full p-2 rounded ${!formRef.current.genderType ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.genderType} onChange={e => { formRef.current.genderType = e.currentTarget.value; subRefresh(Date.now()) }}>
+                                    <option value="">Select</option>
+                                    {formList.genderType.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
+                                </select>
+                             </div>
+                        </div>  
+                        
+                    <div className="flex w-full justify-start items-center mt-3">
+                            <div className="w-1/3 mr-5">
+                            <label>Number of Kids</label>
+                                <input
+                                    type="number"
+                                    placeholder="Enter Number of Kids"
+                                    value={formRef.current.kidsNo}
+                                    className={`w-full rounded border ${!formRef.current.kidsNo ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.kidsNo = e.currentTarget.value; subRefresh(Date.now()); }}
                                 />
-
+                             </div>
+                            
+                            <div className="w-1/3 mr-5">
+                                <label>Date of birth</label>
+                                <input
+                                    type="text"
+                                    value={MyLocalStorage.getLoginInfo().dob}
+                                    readOnly={true}
+                                    dateFormat="MM/DD/YYYY"
+                                    className={`w-full rounded `}
+                                />
+                             </div>
+                             <div className="w-1/3 mr-5">
+                                 <label>Parent Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Parent Name"
+                                    value={formRef.current.parentName}
+                                    className={`w-full rounded border ${!formRef.current.parentName ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.parentName = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
+                             </div>
+                        </div>  
+                        
+                        <div className="flex w-full justify-start items-center mt-3">
+                            <div className="w-1/3 mr-5">
+                                <label>Country</label>
+                                <ReactFlagsSelect
+                                    className={`w-full rounded border ${!formRef.current.country ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    selected={formRef.current.country}
+                                    onSelect={(code) => countryCallback(code, formRef.current)}
+                                    countries={["US", "IN"]}
+                                    placeholder="Country"
+                                />
+                            </div>
+                            <div className="w-1/3 mr-5">
+                                <label>State</label>
+                                <select className={`border w-full p-2 rounded ${!formRef.current.state ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.state} onChange={e => { formRef.current.state = e.currentTarget.value; subRefresh(Date.now()) }}>
+                                    <option value="">-- Select State --</option>
+                                    {stateList(formRef.current.country).map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
+                                </select>
+                            </div>
+                            <div className="w-1/3 mr-5">
+                                <label>Zip Code</label>
+                                <input
+                                    type="number"
+                                    placeholder="Enter Zip code"
+                                    value={formRef.current.zipcode}
+                                    className={`w-full rounded border ${!formRef.current.zipcode ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    onChange={e => { formRef.current.zipcode = e.currentTarget.value; subRefresh(Date.now()); }}
+                                />
                             </div>
                         </div>
-
-                        {formRef.current?.bloods?.map((itm, idx) => (
-                            <React.Fragment key={idx}>
-                                <React.Fragment>
-                                    <div className="flex w-full justify-start items-center relative mt-7">
-                                        <i
-                                            className='bx bxs-trash absolute right-2 -top-4 text-2xl cursor-pointer text-gray-300 hover:text-red-500'
-                                            title="Remove Blood Group Details"
-                                            onClick={_ => removeBlood(idx)}
-                                        ></i>
-
+                        <div className="flex w-full justify-start items-center relative">
                                         <div className="w-1/3 mr-5">
-                                            <label>Blood Group</label>
-                                            <input type="text"
-                                                value={itm.regularMenus}
-                                                className="w-full rounded"
-                                                placeholder="Blood Group"
-                                                onChange={null} readOnly={true}
-                                            />
-                                        </div>
-                                        <div className="w-1/3 mr-5">
-                                            <label>Select Year</label>
-                                            <Datetime
-                                                className={`w-full rounded ${!itm.year ? 'invalidyear' : ''}`}
-                                                placeholder="Year"
-                                                dateFormat="YYYY"
-                                                closeOnSelect={true}
-                                                timeFormat={false}
-                                                inputProps={inputProps}
-                                                value={itm.year ? new Date(`${itm.year}-01-01`) : ''}
-                                                onChange={date => { itm.year = date.year(); subRefresh(Date.now()); }}
-                                            />
-                                        </div>
-                                        <div className="w-1/3">
-                                            <label>Place</label>
-                                            <input
-                                                type="text"
-                                                placeholder="Place"
-                                                value={itm.place}
-                                                className={`w-full rounded border ${!itm.place ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                                onChange={e => { itm.place = e.currentTarget.value; subRefresh(Date.now()); }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="flex w-full justify-start items-center mt-3">
-                                        <div className="w-1/3 mr-5">
-                                            <label>Country</label>
-                                            <ReactFlagsSelect
-                                                className={`w-full rounded border ${!itm.country ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                                selected={itm.country}
-                                                onSelect={(code) => countryCallback(code, itm, idx)}
-                                                countries={["US", "IN"]}
-                                                placeholder="Country"
-                                            />
-                                        </div>
-                                        <div className="w-1/3 mr-5">
-                                            <label>State</label>
-                                            <select className={`border w-full p-2 rounded ${!itm.state ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={itm.state} onChange={e => { itm.state = e.currentTarget.value; subRefresh(Date.now()) }}>
-                                                <option value="" placeholder="State"></option>
-                                                {stateList(itm.country).map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
-                                            </select>
-                                        </div>
-                                        <div className="w-1/3">
-                                            <label>Zip Code</label>
-                                            <input
-                                                type="text"
-                                                value={itm.zipcode}
-                                                className={`w-full rounded border ${!itm.zipcode ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                                onChange={e => { itm.zipcode = e.currentTarget.value; subRefresh(Date.now()); }}
-                                            />
-                                        </div>
-                                    </div>
-
-
-                                    <div className="flex w-full justify-start items-center relative">
-                                        <div className="w-1/3 mr-5">
-                                            <label>Age</label>
-                                            <input
-                                                type="text"
-                                                value={formRef.current.age}
-                                                className={`w-full rounded border ${!formRef.current.age ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                                onChange={e => { formRef.current.age = e.currentTarget.value; subRefresh(Date.now()); }}
-                                            />
+                                        <label>Age</label>
+                                        <input
+                                          type="text"
+                                         placeholder="Enter Age"
+                                         value={calculateAge(MyLocalStorage.getLoginInfo().dob,Date.now())}
+                                         className={`w-full rounded border ${'border-blue-400'}`}
+                                        />
                                         </div>
                                         <div className="w-1/3 mr-5">
                                             <label>Height</label>
@@ -478,7 +398,7 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                                 onChange={e => { formRef.current.height = e.currentTarget.value; subRefresh(Date.now()); }}
                                             />
                                         </div>
-                                        <div className="w-1/3">
+                                        <div className="w-1/3 mr-5">
                                             <label>Weight</label>
                                             <input
                                                 type="text"
@@ -488,6 +408,7 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                             />
                                         </div>
                                     </div>
+                                    
                                     <div className="flex w-full justify-start items-center mt-3">
                                         <div className="w-1/3 mr-5">
                                             <label>Name of the Doctor</label>
@@ -505,7 +426,7 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                                 {formList.apgarScore.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
                                             </select>
                                         </div>
-                                        <div className="w-1/3">
+                                        <div className="w-1/3 mr-5">
                                             <label>Other Score</label>
                                             <select
                                                 className={`border w-full p-2 rounded ${!formRef.current.otherScore ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.otherScore} onChange={e => { formRef.current.otherScore = e.currentTarget.value; subRefresh(Date.now()) }}>
@@ -514,7 +435,8 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="flex w-full justify-start items-center mt-3">
+                       
+                                   <div className="flex w-full justify-start items-center mt-3">
                                         <div className="flex flex-col w-full">
                                             <label>Comments/Recent Activity Weight and Length, Eye Drops, Vitamin K, Newborn Screening, Hepatities Vaccine</label>
                                             <textarea
@@ -526,50 +448,33 @@ const RegularForm = React.memo(({ form, uiRefresh, regularMenus, alertRef, pageD
                                             </textarea>
                                         </div>
                                     </div>
+                        
+                        <div className="flex justify-between items-end mt-3">
+                            <div className="flex">
+                                <button
+                                    type="button"
+                                    className="bg-dodge-d px-3 py-1.5 text-white text-sm shadow-md flex hover:bg-dodge-b"
+                                    onClick={openFileUpload}
+                                ><FontAwesomeIcon icon={faUpload} className="mr-2" />Upload</button>
 
-
-                                </React.Fragment>
-                                <div className="pt-8 pb-5"><hr className="border-gray-400" /> </div>
-                            </React.Fragment>
-                        ))}
-
-
-                        {formRef.current?.bloods?.length > 0 &&
-                            <>
-                                <div className="flex justify-between items-end">
-                                    <div className="flex">
-                                        <button
-                                            type="button"
-                                            className="bg-dodge-d px-3 py-1.5 text-white text-sm shadow-md flex hover:bg-dodge-b"
-                                            onClick={openFileUpload}
-                                        ><FontAwesomeIcon icon={faUpload} className="mr-2" />Upload</button>
-
-                                        <div
-                                            onClick={modalViewClose}
-                                            className="border border-gray-400 flex justify-between items-center text-sm px-4 py-1.5 ml-3 cursor-pointer hover:bg-gray-100 hover:border-dodge-d"
-                                        >
-                                            <div>{formRef.current.documents.length} document(s) uploded</div>
-                                            <FontAwesomeIcon icon={faSearch} className="ml-2 text-dodge-d" />
-                                        </div>
-                                    </div>
-                                    <div className="flex items-end">
-                                        <button
-                                            type="button"
-                                            onClick={saveRegular}
-                                            className="bg-red-600 px-3 h-8 mr-5 text-white text-sm shadow-md flex justify-center items-center hover:bg-red-500 ml-3"
-                                        >
-                                            {pageRef.current.isSaving ? <div className="flex justify-center items-center w-12"><ButtonLoader /></div> : <><FontAwesomeIcon icon={faSave} className="mr-2" />Save</>}
-                                        </button>
-                                        <div className="flex flex-col">
-                                            <span className="text-sm">Year of studied</span>
-                                            <div className="border border-gray-400 flex justify-between items-center text-sm px-4 py-1.5 font-bold">
-                                                {yearRange()}
-                                            </div>
-                                        </div>
-                                        s                     </div>
+                                <div
+                                    onClick={modalViewClose}
+                                    className="border border-gray-400 flex justify-between items-center text-sm px-4 py-1.5 ml-3 cursor-pointer hover:bg-gray-100 hover:border-dodge-d"
+                                >
+                                    <div>{formRef.current.documents.length} document(s) uploded</div>
+                                    <FontAwesomeIcon icon={faSearch} className="ml-2 text-dodge-d" />
                                 </div>
-                            </>
-                        }
+                            </div>
+                            <div className="flex items-end">
+                                <button
+                                    type="button"
+                                    onClick={saveRegular}
+                                    className="bg-red-600 px-3 h-8 text-white text-sm shadow-md flex justify-center items-center hover:bg-red-500 ml-3"
+                                >
+                                    {pageRef.current.isSaving ? <div className="flex justify-center items-center w-12"><ButtonLoader /></div> : <><FontAwesomeIcon icon={faSave} className="mr-2" />Save</>}
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
