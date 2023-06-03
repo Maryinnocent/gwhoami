@@ -8,6 +8,13 @@ const NavList = {
             sub: [{ name: 'Home', path: '/user' }],
         },
         {
+            menu: 'Shopping',
+            icon: <i className="bx bx-shopping-bag"></i>,
+            sub: [
+                { name: 'Home', path: "/shopping/home" },
+            ]
+        },
+        {
             menu: 'Profile',
             icon: <i className="bx bxs-graduation"></i>,
             sub: [

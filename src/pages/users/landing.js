@@ -83,7 +83,7 @@ const UserLanding = React.memo(() =>
                     <h3 className="text-2xl">Welcome {MyLocalStorage.getLoginInfo().firstName} {MyLocalStorage.getLoginInfo().lastName}</h3>
                 </div>
                 <div className="flex flex-wrap w-full h-full mt-5 gap-x-20 gap-y-20">
-                    <div className="w-56 h-40 bg-blue-700 rounded-xl flex justify-center items-center text-gray-200 homeboxshadow cursor-pointer" onClick={showProfile}>Profile</div>
+                    <div className="w-56 h-40 bg-blue-700 rounded-xl flex justify-center items-center text-gray-200 homeboxshadow cursor-pointer" onClick={showProfile}><i className=" bx bx-user-circle xxl"> </i>  &nbsp;Profile</div>
                     <div className="w-56 h-40 bg-blue-700 rounded-xl flex justify-center items-center text-gray-200 homeboxshadow cursor-pointer">Education</div>
                     <div className="w-56 h-40 bg-blue-700 rounded-xl flex justify-center items-center text-gray-200 homeboxshadow cursor-pointer" onClick={showSport}>Sports</div>
                     <div className="w-56 h-40 bg-blue-700 rounded-xl flex justify-center items-center text-gray-200 homeboxshadow cursor-pointer">Medical</div>

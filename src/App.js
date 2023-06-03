@@ -1,4 +1,4 @@
-import React, { Suspense,  useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import DotSpinner from './component/DotSpinner';
@@ -17,8 +17,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 //import { ReactQueryDevtools } from 'react-query-devtools';
 //import { ReactQueryDevtools } from 'react-query/devtools';
 //import ToastMessage from './toast';
-const HomeLanding = React.lazy(()=>import('./layout/homelayout/homeLanding'));
-const UserLanding = React.lazy(()=>import('./layout/userlayout/userLanding'));
+const HomeLanding = React.lazy(() => import('./layout/homelayout/homeLanding'));
+const UserLanding = React.lazy(() => import('./layout/userlayout/userLanding'));
+const ShoppingLanding = React.lazy(() => import('./layout/userlayout/shoppingLanding'));
 //import { apiGetCall } from './helper/API';
 const queryClient = new QueryClient({
     // queryCache: new QueryCache({
@@ -29,25 +30,28 @@ const queryClient = new QueryClient({
     //     },
     // })
 });
-const App = () => {
+const App = () =>
+{
     const [isAuthenticated, setAuthenticated] = useState(false);
-    useState(()=> {
+    useState(() =>
+    {
         setAuthenticated(MyLocalStorage.isLoggedIn());
     }, []);
     // useBeforeunload(()=> {
     //     MyLocalStorage.empty();
     //     setAuthenticated(false);
     // });
-    
+
     return (
         <QueryClientProvider client={queryClient}>
-            <MainContext.Provider value={{setAuthenticated}}>
-                <Suspense fallback={<div className='w-full h-full flex justify-center items-center bg-gray-300'><DotSpinner/></div>}>
-                    <ToastContainer/>
+            <MainContext.Provider value={{ setAuthenticated }}>
+                <Suspense fallback={<div className='w-full h-full flex justify-center items-center bg-gray-300'><DotSpinner /></div>}>
+                    <ToastContainer />
                     <Switch>
                         <PublicRoute path="/home" isAuthenticated={isAuthenticated} comp={HomeLanding}></PublicRoute>
                         <UserRoute path="/user" isAuthenticated={isAuthenticated} comp={UserLanding}></UserRoute>
-                        <Route path="/" exact><Redirect to="/home"/></Route>
+                        <UserRoute path="/shopping" isAuthenticated={isAuthenticated} comp={ShoppingLanding}></UserRoute>
+                        <Route path="/" exact><Redirect to="/home" /></Route>
                         <Route path="*"><h1>Not found</h1></Route>
                     </Switch>
                 </Suspense>
