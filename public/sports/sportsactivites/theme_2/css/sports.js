@@ -59,7 +59,6 @@
         </div>
 <div>
 
-
 <table class="table"  data-aos="fade-right">
   <thead  class="thirdheader">
     <tr>
@@ -117,9 +116,9 @@
     </tr>
   </tbody>
 </table>
-<div>
-
-<table border="1" cellpadding="1" cellspacing="1" style="background-color:#ffffff; width:329.949px">
+<table  data-aos="flip-left"
+data-aos-easing="ease-out-cubic"
+data-aos-duration="2000"  class="table">
 	<tbody>
 		<tr>
 			<td  style="width:90px" class="bg-3imgtr"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2023</p>
@@ -138,43 +137,46 @@
 		</tr>
 	</tbody>
 </table>
+<video width="820" height="440" controls>
+<source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+<source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+    <div class="CSSgal">
 
-<table class="table"  data-aos="fade-right">
+  <!-- Don't wrap targets in parent -->
+  <s id="s1"></s> 
+  <s id="s2"></s>
+  <s id="s3"></s>
+  <s id="s4"></s>
+  <s id="s5"></s>
+  <div class="slider">
+    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+    
+  </div>
   
-  <tbody>
-  <tr class="thirdheaderrow4">
-    <th scope="col">
-    <div id="slideshow">
-        <div class="slide-wrapper">
-            
-            <div class="slide">
-                <h1 class="slide-number">
-                <div class=" d-flex justify-content-center align-items-center" data-aos="flip-left" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-                </h1>
-            </div>
-            <div class="slide">
-                <h1 class="slide-number">
-                <div class=" d-flex justify-content-center align-items-center" data-aos="flip-left" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-                </h1>
-            </div>
-            <div class="slide">
-                <h1 class="slide-number">
-                <div class=" d-flex justify-content-center align-items-center" data-aos="flip-left" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-                </h1>
-            </div>
-            <div class="slide">
-                <h1 class="slide-number">
-                <div class=" d-flex justify-content-center align-items-center" data-aos="flip-left" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-                
-                </h1>
-            </div>
-        </div>
-    </div></th>
-    </tr>
-</tbody>
-</table>
+  <div class="prevNext">
+    <div><a href="#s5">4</a><a href="#s2">2</a></div>
+    <div><a href="#s1">1</a><a href="#s3">3</a></div>
+    <div><a href="#s2">2</a><a href="#s4">4</a></div>
+    <div><a href="#s3">3</a><a href="#s5">5</a></div>
+    <div><a href="#s4">4</a><a href="#s1">1</a></div>
+  </div>
 
-</div>
+  <div class="bullets">
+    <a href="#s1">1</a>
+    <a href="#s2">2</a>
+    <a href="#s3">3</a>
+    <a href="#s4">4</a>
+    <a href="#s5">5</a>
+  </div>
+  
+    </div>
+ </div>
    </div>`
     });
     const myEducation = Vue.component('myEducation', {
