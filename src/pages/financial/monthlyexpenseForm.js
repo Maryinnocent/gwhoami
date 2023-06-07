@@ -1232,7 +1232,7 @@ const MonthlyexpenseForm = React.memo(
 
                         <div className="flex w-full justify-start items-center mt-3">
                             <div className="flex flex-col w-full">
-                                <label>Comments</label>
+                                <label>Comments </label>
                                 <textarea
                                     className={`w-full rounded border ${!formRef.current.incomeComments ? 'border-red-500 err-input' : 'border-gray-400'}`}
                                     value={formRef.current.incomeComments}
