@@ -131,7 +131,7 @@ data-aos-duration="2000"  class="table">
 			<td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2020</p></td>
 		</tr>
 		<tr>
-			<td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2019</p></td>
+			<td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2025</p></td>
 			<td class="bg-3imgtr"  style="width:162px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>    </p></td>
 			<td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2018</p></td>
 		</tr>
