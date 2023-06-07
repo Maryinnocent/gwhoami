@@ -181,7 +181,7 @@ const ChurchForm = React.memo(
           uiRefresh(Date.now());
           ToastMessage({
             type: 'success',
-            message: 'Church Details added succesfully!',
+            message: 'church Crime Details added succesfully!',
             timeout: 1200,
           });
         }
@@ -191,7 +191,7 @@ const ChurchForm = React.memo(
       if (typeof formRef.current.saved !== 'undefined') {
         ToastMessage({
           type: 'error',
-          message: 'Save the Church Crime Details and upload!',
+          message: 'Save the church Crime Details and upload!',
           timeout: 1200,
         });
         return;
@@ -335,7 +335,7 @@ const ChurchForm = React.memo(
             uiRefresh(Date.now());
           },
           'Confirm?',
-          'Are you sure to delete this Church crime Details?'
+          'Are you sure to delete this Church Crime Save Details?'
         );
       }
     };
@@ -477,15 +477,15 @@ const ChurchForm = React.memo(
           ></i>
           <div className="pt-5 pb-3">
             <form>
-            <div className="flex w-full justify-start items-center relative">
-                <div className="w-1/3 mr-5">
-                  <InputSelect
+            <div className="flex w-full justify-start items-center mt-3">
+                        <div className="w-1/3 mr-5">
+                        <InputSelect
                     styleClass="flex flex-col mb-4"
                     formKey="caseType"
-                    ID="caseType"
+                    ID="macaseTypeke"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="Case Type"
+                    label="Type of Case"
                     placeholder="--Select--"
                     options={formList.caseType}
                     required="Type of Case is required"
@@ -497,7 +497,7 @@ const ChurchForm = React.memo(
                     formKey="firstName"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="FirstName"
+                    label="First Name"
                     placeholder="First Name"
                     required="First Name is required"
                     icon={faUser}
@@ -511,54 +511,57 @@ const ChurchForm = React.memo(
                     uiRefresh={ui}
                     label="Second Name"
                     placeholder="Second Name"
+                    required="Second Name is required"
                     icon={faUser}
                   />
                 </div>
               </div>
-
               <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="bankName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Bank Name"
-                    placeholder="Bank Name"
-                    required="Bank Name is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="accountNumber"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Account-Number #"
-                    placeholder="Account-Number #"
-                    required="Account-Number is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
+             <div className="w-1/3 mr-5">
                   <DatePicker
                     styleClass="flex flex-col mb-4"
-                    formKey="createdOn"
-                    ID="createdOn"
+                    formKey="caseStarton"
+                    ID="caseStarton"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="Created On"
-                    placeholder="Created On"
-                    required="Created On is required"
+                    label="Started On"
+                    placeholder="Started On"
+                    required="Started On is required"
                     // callback={dobCallback}
                   />
                 </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
                 <div className="w-1/3 mr-5">
+                <DatePicker
+                    styleClass="flex flex-col mb-4"
+                    formKey="caseEndon"
+                    ID="caseEndon"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="End On"
+                    placeholder="End On"
+                    required="End On is required"
+                    // callback={dobCallback}
+                  />
+                </div>  
+                <div className="w-1/3 mr-5">
+                <GroupInput
+                    styleClass="flex flex-col mb-4"
+                    formKey="village"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="County / Village"
+                    placeholder="County / Village"
+                    required="County / Village is required"
+                    icon={faUser}
+                  />
+                </div>  
+                </div>
+                <div className="flex w-full justify-start items-center mt-3">
+             <div className="w-1/3 mr-5">
                   <DatePicker
                     styleClass="flex flex-col mb-4"
-                    formKey="year"
-                    ID="year"
+                    formKey="caseYear"
+                    ID="caseYear"
                     formRef={formRef}
                     uiRefresh={ui}
                     label="Year"
@@ -567,68 +570,6 @@ const ChurchForm = React.memo(
                     // callback={dobCallback}
                   />
                 </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="totalAmount"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Total Amount $"
-                    placeholder="Total Amount $"
-                    required="Total Amount $ is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="interestRate"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Interest Rate %"
-                    placeholder="Interest Rate %"
-                    required="Interest Rate % is required"
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="address"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Location/Address"
-                    placeholder="Location/Adress"
-                    required="Location/Address is required"
-                    icon={faAddressCard}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="county"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="County"
-                    placeholder="County"
-                    required="County is required"
-                    icon={faTreeCity}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="city"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="City"
-                    placeholder="City"
-                    required="City is required"
-                    icon={faCity}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
                 <div className="w-1/3 mr-5">
                   <label>Country</label>
                   <ReactFlagsSelect
@@ -665,86 +606,152 @@ const ChurchForm = React.memo(
                     ))}
                   </select>
                 </div>
+                </div>
+                <div className="flex w-full justify-start items-center mt-3">
                 <div className="w-1/3 mr-5">
+                  <InputRadio
+                    styleClass="flex flex-col mb-4"
+                    formKey="isAnyIssue"
+                    formRef={formRef}
+                    ui={ui}
+                    name="isAnyIssue"
+                    label="Is the case is ended with no issues?"
+                    values={['Yes', 'No']}
+                    required="Yes /No  is required"
+                  />
+                  </div>
+                  <div className="w-1/3 mr-5">
+                  <InputRadio
+                    styleClass="flex flex-col mb-4"
+                    formKey="isAnyFir"
+                    formRef={formRef}
+                    ui={ui}
+                    name="isAnyFir"
+                    label="Do you arrest or Fiwld FIR?"
+                    values={['Yes', 'No']}
+                    required="Yes /No  is required"
+                  />
+                  </div>
+                  <div className="w-1/3 mr-5">
+                  </div>
+                  </div>
+                  <div className="flex w-full justify-start items-center mt-3">
+                  <div className="w-1/3 mr-5">
+                  <InputRadio
+                    styleClass="flex flex-col mb-4"
+                    formKey="isAnyPenalty"
+                    formRef={formRef}
+                    ui={ui}
+                    name="isAnyPenalty"
+                    label="Did you pay any Penalty?"
+                    values={['Yes', 'No']}
+                    required="Yes /No  is required"
+                  />
+                  </div>
+                   <div className="w-1/3 mr-5">
                   <GroupInput
                     styleClass="flex flex-col mb-4"
-                    formKey="zipCode"
+                    formKey="firNumber"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="Zip/Postal"
-                    placeholder="Zip/Postal"
-                    required="Zip/Postal is required"
-                    icon={faMapPin}
+                    label="Case/ Fir #"
+                    placeholder="Case/ Fir #"
+                    required="Case/ Fir # is required"
+                    icon={faUser}
                   />
                 </div>
-              </div>
-
-              <div className="flex w-full justify-start items-center relative">
                 <div className="w-1/3 mr-5">
-                  <InputRadio
-                    styleClass="flex flex-col mb-4"
-                    formKey="primaryAccount"
-                    formRef={formRef}
-                    ui={ui}
-                    name="primaryAccount"
-                    label="Are you a Primary Responsible for this account?"
-                    values={['Yes', 'No']}
-                    required="Yes /No  is required"
-                  />
+                  
                 </div>
-                <div className="w-1/3 mr-5"></div>
-
-                <div className="w-1/3 mr-5">
-                  <InputRadio
-                    styleClass="flex flex-col mb-4"
-                    formKey="joinAccount"
-                    formRef={formRef}
-                    ui={ui}
-                    name="joinAccount"
-                    label="Is this joint account?"
-                    values={['Yes', 'No']}
-                    required="Yes /No  is required"
-                  />
-                </div>
+                
               </div>
               <div className="flex w-full justify-start items-center mt-3">
+                  
+                   <div className="w-1/3 mr-5">
+                  <GroupInput
+                    styleClass="flex flex-col mb-4"
+                    formKey="penaltyAmount"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="Penalty Amount"
+                    placeholder="Penalty Amount"
+                    required="Penalty Amount is required"
+                    icon={faUser}
+                  />
+                </div>
+                <div className="w-1/3 mr-5">
+                <DatePicker
+                    styleClass="flex flex-col mb-4"
+                    formKey="judgementDate"
+                    ID="judgementDate"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="Judgement Date"
+                    placeholder="Judgement Date"
+                    required="Judgement Date is required"
+                    // callback={dobCallback}
+                  />
+                  </div>
                 <div className="w-1/3 mr-5">
                   <GroupInput
                     styleClass="flex flex-col mb-4"
-                    formKey="responsible"
-                    ID="responsible"
+                    formKey="judgeName"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="Who is responsible after you?"
-                    placeholder="Who is responsible after you?"
+                    label="Judge Name"
+                    placeholder="Judge Name"
+                    required="Judge Name is required"
+                    icon={faUser}
                   />
                 </div>
-
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="legalName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Full Legal Name"
-                    placeholder="Full Legal Name"
-                    required="Full Legal Name is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5"></div>
               </div>
               <div className="flex w-full justify-start items-center mt-3">
                             <div className="flex flex-col w-full">
+                                <label>Comments</label>
+                                <textarea
+                                    className={`w-full rounded border ${!formRef.current.judementDetails ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    value={formRef.current.judementDetails}
+                                    placeholder="Judgement Details"
+                                    onChange={e => { formRef.current.judementDetails = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    rows={4}
+                                >
+                                </textarea>
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-start items-center mt-3">
+                  <div className="w-1/3 mr-5">
+                  <InputRadio
+                    styleClass="flex flex-col mb-4"
+                    formKey="isImpactcredit"
+                    formRef={formRef}
+                    ui={ui}
+                    name="isImpactcredit"
+                    label="Is this impact your credit score?"
+                    values={['Yes', 'No']}
+                    required="Yes /No  is required"
+                  />
+                  </div>
+                   <div className="w-1/3 mr-5">
+                  </div>
+                <div className="w-1/3 mr-5">
+                  
+                </div>
+                
+              </div>
+              <div className="flex w-full justify-start items-center mt-3">
+                            <div className="flex flex-col w-full">
+                                <label>Comments</label>
                                 <textarea
                                     className={`w-full rounded border ${!formRef.current.churchComments ? 'border-red-500 err-input' : 'border-gray-400'}`}
-                                    placeholder="Comments if any http://totalhlth.followhealth.com/patientaccess#/Home"
                                     value={formRef.current.churchComments}
+                                    placeholder='Type of cases:Crimes/ Domastic Violents/Financial Crimes Sexual'
                                     onChange={e => { formRef.current.churchComments = e.currentTarget.value; subRefresh(Date.now()); }}
                                     rows={4}
                                 >
                                 </textarea>
                             </div>
                         </div>
+
               <div className="flex justify-between items-end mt-3">
                 <div className="flex">
                   <button
