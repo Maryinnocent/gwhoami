@@ -57,6 +57,7 @@
                     <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
                 </video>
             </div>
+            <div class="col-md-12"><p class="GalleryPhead"></p></div>
             <div class="col-md-12">
                 <table class="table"  data-aos="fade-right">
                     <thead  class="thirdheader">
@@ -108,6 +109,7 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-md-12"><p class="GalleryPhead">Awards</p></div>
             <div class="col-md-12">
                 <table  data-aos="flip-left"
                     data-aos-easing="ease-out-cubic"
@@ -131,6 +133,8 @@
 	                </tbody>
                 </table>
             </div>
+            <div class="col-md-12"><p class="GalleryPhead">Image Gallery</p></div>
+            
             <div class="col-md-12">
                 <div class="CSSgal">
                     <!-- Don't wrap targets in parent -->
@@ -163,6 +167,7 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12"><p class="GalleryPhead">Gallery Video</p></div>
             <div class="col-md-3">
                 <video width="300" height="300"  controls>
                     <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
@@ -203,7 +208,17 @@
                     <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
                 </video>
             </div>
-            
+            <div  class="col-md-12">
+            <table>
+                <tbody>
+                    <tr>
+                        <td valign="top"><div class="imgdet"></div></td>
+                        <td valign="top"><p class="quoteheading">What Coach and public says</p></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div  class="col-md-12"><p class="quoteheadingsub">I am working on Volunteering, Playing in League games, Domestic and International Games</p></div>
             <div class="col-md-12">
             <div>
                 <table cellpadding="5" cellspacing="6" style="width:100%">
@@ -256,9 +271,17 @@
                 </table>
                 </div>
             </div>
-            <div  class="col-md-2"></div>
-            <div  class="col-md-2"></div>
-            <div class="col-md-8"><p class="quoteheading">What Coach and public says</p></div>
+            <div  class="col-md-12">
+                <table>
+	                <tbody>
+		                <tr>
+			                <td valign="top"><div class="imgqu"></div></td>
+			                <td valign="top"><p class="quoteheading">What Coach and public says</p></td>
+		                </tr>
+	                </tbody>
+                </table>
+            </div>
+            
             <div class="col-md-4">
                 <div class="quote-wrapper  shadowboxpquote">
                     <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>

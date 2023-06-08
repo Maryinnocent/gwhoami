@@ -12,7 +12,7 @@
     background-position: center;
     background-size: cover;
     color: #2a2c35;
-    background-color: #dde3e6;
+    background-color: #FFF;
 }
 
 .headcons {
@@ -22,7 +22,7 @@
     background-position: center;
     background-size: cover;
     color: #2a2c35;
-    background-color: #dde3e6;
+    background-color: #FFF;
 }
 
 .grpbtn {
@@ -39,13 +39,13 @@
 
 .nameinfo1 {
     font-weight: 700;
-    font-size: 2.25rem;
+    font-size: 1.75rem;
     margin: 71px 20px 0;
 }
 
 .nameinfo2 {
     font-weight: 700;
-    font-size: 3rem;
+    font-size: 1.75rem;
     margin: 8px 28px 0 20px;
 }
 
@@ -701,7 +701,7 @@ http://stackoverflow.com/a/34696029/383904
     min-width: 15em;
     border-radius: 2px solid black;
     border: 0px solid #333;
-    box-shadow: 18px 18px 15px #444;
+    box-shadow: 18px 18px 15px #b8b8b8;
     padding: 8px 12px;
     background-image: linear-gradient(180deg, #fff, #fff 40%, #fff);
 }
@@ -970,26 +970,62 @@ http://stackoverflow.com/a/34696029/383904
     padding: 3px;
 }
 
-.quoteheading {
+.GalleryPhead {
     align-items: center;
-    text-align: left;
-    color: #0b0b0b;
-    padding: 10px;
-    margin-bottom: 20px;
-    margin-top: 30px;
+    color: #0154ac;
+    border-radius: 10%;
+    padding-top: 25px;
+    padding-left: 75px;
+    padding-bottom: 10px;
     font-weight: bolder;
-    font: 3em sans-serif;
+    font: 2.5em sans-serif;
+    text-align: center;
+}
 
+.quoteheadingsub {
+    align-items: center;
+    color: #070808;
+    border-radius: 10%;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    font-weight: bolder;
+    font: 1.2em sans-serif;
+    text-align: center;
+}
+
+.quoteheading {
+    align-items: left;
+    color: #0480fb;
+    border-radius: 10%;
+    padding-left: 40px;
+    margin-top: 60px;
+    font-weight: bolder;
+    font: 2.5em sans-serif;
+    text-align: left;
 }
 
 .imgqu {
     background-image: url('../sports/sportsactivites/theme_2/css/images/download.png');
     background-size: cover;
     background-position: center;
-    height: 50px;
-    width: 50px;
-    margin-top: 80px;
-    margin-bottom: 80px;
-    margin-left: 180px;
-    margin-right: 50px;
+    background-color: #027df8;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    margin-top: 50px;
+    margin-left: 350px;
+    margin-bottom: 50px;
+}
+
+.imgdet {
+    background-image: url('../sports/sportsactivites/theme_2/css/images/download-1.png');
+    background-size: cover;
+    background-position: center;
+    background-color: #f6f7f8;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    margin-top: 50px;
+    margin-left: 350px;
+    margin-bottom: 50px;
 }
