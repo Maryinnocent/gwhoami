@@ -241,7 +241,7 @@
     /* background-image: url(images/profile.jpg); */
     border-radius: 5% !important;
     color: #020202;
-    border: 3px solid black;
+    border: 0px solid black;
     border-top: 1px solid rgb(108, 128, 143);
     border-bottom: 1px solid rgb(123, 146, 161);
     border-left: 1px solid rgb(85, 106, 120);
