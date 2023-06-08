@@ -53,7 +53,6 @@ import { nanoid } from 'nanoid';
 import { formList } from './formLists';
 // import { UserContext } from "../../util/maincontext";
 import MyLocalStorage from '../../util/mylocalStorage';
-import Rating from '../../component/Rating';
 
 const ProductForm = React.memo(
   ({ form, uiRefresh, alertRef, pageData, recordIndex, productAddedList }) =>
@@ -520,10 +519,10 @@ const ProductForm = React.memo(
                   <a href={`/user/product/product/${formRef.current._id}`}>
                     <h2>{formRef.current.name}</h2>
                   </a>
-                  <Rating
+                  {/* <Rating
                     rating={formRef.current.rating}
                     numReviews={formRef.current.numReviews}
-                  ></Rating>
+                  ></Rating> */}
                   <div className="price">${formRef.current.price}</div>
                 </div>
               </div>

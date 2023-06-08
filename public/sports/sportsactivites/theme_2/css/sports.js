@@ -24,160 +24,266 @@
         props: ['info'],
         template: `
         <div class="row">
-        
-        <div class="col-md-6">
-            <h3 class="nameinfo1" data-aos="fade-right"> ID: {{info.accountId}}</h3>
-            <h2 class="nameinfo2" data-aos="fade-right">{{info.firstName}} {{info.lastName}}</h2>
-            <div class="line-horiz"></div>
-        </div>
-        <div class="col-md-6">
-        </div>
-        <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My Sports
-        </h3>
-        </div>
-        <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My favorite play is Soccer
-        </h3>
-        </div>
-        <div class="col-md-4">
-                <div class="profiletext" data-aos="fade-left">
-                <h3  class="nameinfo1">{{info.firstName}} {{info.lastName}}</h3>
-                <div class="d-flex"><span class="mydtl">Date of Birth :</span><span>{{moment(info.dob).format('DD-MMMM-YYYY')}}</span></div>
-                <div class="d-flex"><span class="mydtl">Address :</span><span>{{info.address}}</span></div>
-                <div class="d-flex"><span class="mydtl">E-mail :</span><span>{{info.userName}}</span></div>
-                <div class="d-flex"><span class="mydtl">Phone :</span><span>{{info.phoneCode}}{{info.phone}}</span></div>
-                <div class="d-flex"><span class="mydtl">Gender :</span><span>{{info.gender}}</span></div>
-                <div class="d-flex"><span class="mydtl">Nationality :</span><span>{{info.country}}</span></div>
-                <div class="d-flex"><span class="mydtl">State :</span><span>{{info.state}}</span></div>
-                <div class="d-flex"><span class="mydtl">Language :</span><span>{{info.language}}</span></div>
+            <div class="col-md-6">
+                <h3 class="nameinfo1" data-aos="fade-right"> ID: {{info.accountId}}</h3>
+                <h2 class="nameinfo2" data-aos="fade-right">{{info.firstName}} {{info.lastName}}</h2>
+                <div class="line-horiz"></div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class=" d-flex justify-content-center align-items-center" data-aos="flip-left" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-        </div>
-        <div class="col-md-4">
-            <div class=" d-flex justify-content-center align-items-center" data-aos="flip-right" data-aos-duration="1000"><div class="bg-profile" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
-        </div>
-<div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My Sports
+                </h3>
+            </div>
+            <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My favorite play is Soccer
+                </h3>
+            </div>
+            <div class="col-md-4">
+                <div class="profileinfo" data-aos="fade-up-right">
+                    <div class="d-flex"><span class="mydtl">Date of Birth :</span><span>{{moment(info.dob).format('DD-MMMM-YYYY')}}</span></div>
+                    <div class="d-flex"><span class="mydtl">Address :</span><span>{{info.address}}</span></div>
+                    <div class="d-flex"><span class="mydtl">E-mail :</span><span>{{info.userName}}</span></div>
+                    <div class="d-flex"><span class="mydtl">Phone :</span><span>{{info.phoneCode}}{{info.phone}}</span></div>
+                    <div class="d-flex"><span class="mydtl">Gender :</span><span>{{info.gender}}</span></div>
+                    <div class="d-flex"><span class="mydtl">Nationality :</span><span>{{info.country}}</span></div>
+                    <div class="d-flex"><span class="mydtl">State :</span><span>{{info.state}}</span></div>
+                    <div class="d-flex"><span class="mydtl">Language :</span><span>{{info.language}}</span></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class=" d-flex justify-content-center align-items-center" data-aos="zoom-in-left" data-aos-duration="1000"><div class="bg-profile3" :style="{backgroundImage: 'url('+info.bg+')'}"></div></div>
+            </div>
+            <div class="col-md-4 bg-profile3">
+                <video width="320" height="280"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-12">
+                <table class="table"  data-aos="fade-right">
+                    <thead  class="thirdheader">
+                        <tr>
+                            <th  colspan="7">Primary League</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="thirdheaderrow">
+                            <th scope="col">Season</th>
+                            <th scope="col">Team</th>
+                            <th scope="col">Goals</th>
+                            <th scope="col">Assists</th>
+                            <th scope="col">Yellow Cards</th>
+                            <th scope="col">Red Cards</th>
+                        </tr>
+                        <tr  class="thirdheaderrows">
+                            <th scope="row">2023</th>
+                            <td>FPYC</td>
+                            <td>10</td>
+                            <td>7</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr  class="thirdheaderrows">
+                            <th scope="row">2022</th>
+                            <td>FPYC</td>
+                            <td>9</td>
+                            <td>9</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr  class="thirdheaderrows">
+                            <th scope="row">2021</th>
+                            <td>FPYC</td>
+                            <td>12</td>
+                            <td>11</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr  class="thirdheaderrows">
+                            <th scope="row">2019</th>
+                            <td>FPYC</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <table  data-aos="flip-left"
+                    data-aos-easing="ease-out-cubic"
+                    data-aos-duration="2000"  class="table">
+	                <tbody>
+		                <tr>
+			                <td  style="width:90px" class="bg-3imgtr"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2023</p>
+                            </td>
+			                <td colspan="1" rowspan="2" class="bg-3imgtr" style="width:162px"><div class="bg-profile1" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>    </p></td>
+			                <td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2022</p></td>
+		                </tr>
+		                <tr>
+			                <td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2021</p></td>
+			                <td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2020</p></td>
+		                </tr>
+		                <tr>
+			                <td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2019</p></td>
+			                <td class="bg-3imgtr"  style="width:162px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>    </p></td>
+			                <td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2018</p></td>
+		                </tr>
+	                </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <div class="CSSgal">
+                    <!-- Don't wrap targets in parent -->
+                    <s id="s1"></s> 
+                    <s id="s2"></s>
+                    <s id="s3"></s>
+                    <s id="s4"></s>
+                    <s id="s5"></s>
+                    <div class="slider">
+                        <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                        <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                        <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                        <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                        <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                
+                    </div>
+                    <div class="prevNext">
+                        <div><a href="#s5">4</a><a href="#s2">2</a></div>
+                        <div><a href="#s1">1</a><a href="#s3">3</a></div>
+                        <div><a href="#s2">2</a><a href="#s4">4</a></div>
+                        <div><a href="#s3">3</a><a href="#s5">5</a></div>
+                        <div><a href="#s4">4</a><a href="#s1">1</a></div>
+                    </div>
+                    <div class="bullets">
+                        <a href="#s1">1</a>
+                        <a href="#s2">2</a>
+                        <a href="#s3">3</a>
+                        <a href="#s4">4</a>
+                        <a href="#s5">5</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="col-md-3">
+                <video width="300" height="300"  controls>
+                    <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="col-md-12">
+            <div>
+                <table cellpadding="5" cellspacing="6" style="width:100%">
+	                <tbody>
+		                <tr>
+			                <td style="width:71px"  valign="top"><div class="shadowbox"><P class="ph"><h1>current league</h1></P>
+                                <p class="pc">Now I am playing in FPYC club and I am a center middle player.</p></div></td>
+			                <td rowspan="3" valign="top" style="width:123px">
+                            <div class="shadowbox"><p class="pm">Name :Prathyush Milan Justin 
 
-<table class="table"  data-aos="fade-right">
-  <thead  class="thirdheader">
-    <tr>
-      <th  colspan="7">Primary League</th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr class="thirdheaderrow">
-    <th scope="col">Season</th>
-    <th scope="col">Team</th>
-    <th scope="col">Goals</th>
-    <th scope="col">Assists</th>
-    <th scope="col">Yellow Cards</th>
-    <th scope="col">Red Cards</th>
-</tr>
-    <tr  class="thirdheaderrows">
-      <th scope="row">2023</th>
-      <td>FPYC</td>
-      <td>10</td>
-      <td>7</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr  class="thirdheaderrows">
-      <th scope="row">2022</th>
-      <td>FPYC</td>
-      <td>9</td>
-      <td>9</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr  class="thirdheaderrows">
-      <th scope="row">2021</th>
-      <td>FPYC</td>
-      <td>12</td>
-      <td>11</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr  class="thirdheaderrows">
-      <th scope="row">2020</th>
-      <td>FPYC</td>
-      <td>10</td>
-      <td>7</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr  class="thirdheaderrows">
-      <th scope="row">2019</th>
-      <td>FPYC</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<table  data-aos="flip-left"
-data-aos-easing="ease-out-cubic"
-data-aos-duration="2000"  class="table">
-	<tbody>
-		<tr>
-			<td  style="width:90px" class="bg-3imgtr"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2023</p>
-            </td>
-			<td colspan="1" rowspan="2" class="bg-3imgtr" style="width:162px"><div class="bg-profile1" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>    </p></td>
-			<td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2022</p></td>
-		</tr>
-		<tr>
-			<td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2021</p></td>
-			<td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2020</p></td>
-		</tr>
-		<tr>
-			<td class="bg-3imgtr"  style="width:90px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2019</p></td>
-			<td class="bg-3imgtr"  style="width:162px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>    </p></td>
-			<td class="bg-3imgtr"  style="width:59px"><div class="bg-profile2" :style="{backgroundImage: 'url('+info.bg+')'}"></div><p>2018</p></td>
-		</tr>
-	</tbody>
-</table>
-<video width="820" height="440" controls>
-<source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
-<source src="movie.ogg" type="video/ogg">
-Your browser does not support the video tag.
-</video>
-    <div class="CSSgal">
+                           <br> Date of birth                      : 03/06/2011
+            
+                           <br>Place of birth                     : INDIA
+            
+                           <br>Age                                      : 12
+            
+                           <br>Height                                 : 5 feet
+            
+                           <br>citizenship                         :  India
+            
+                           <br>Position                              : Center Middle
+            
+                           <br>Foot                                    : Right
 
-  <!-- Don't wrap targets in parent -->
-  <s id="s1"></s> 
-  <s id="s2"></s>
-  <s id="s3"></s>
-  <s id="s4"></s>
-  <s id="s5"></s>
-  <div class="slider">
-    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
-    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
-    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
-    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
-    <div class="bg-profileslide" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
-    
-  </div>
-  
-  <div class="prevNext">
-    <div><a href="#s5">4</a><a href="#s2">2</a></div>
-    <div><a href="#s1">1</a><a href="#s3">3</a></div>
-    <div><a href="#s2">2</a><a href="#s4">4</a></div>
-    <div><a href="#s3">3</a><a href="#s5">5</a></div>
-    <div><a href="#s4">4</a><a href="#s1">1</a></div>
-  </div>
-
-  <div class="bullets">
-    <a href="#s1">1</a>
-    <a href="#s2">2</a>
-    <a href="#s3">3</a>
-    <a href="#s4">4</a>
-    <a href="#s5">5</a>
-  </div>
-  
-    </div>
- </div>
-   </div>`
+                           <br>Player agent                      :Nil
+            
+                           <br>Current club                     : FPYC
+            
+                           <br>Joined                                 :Aug 10, 2017
+            
+                           <br>Contract expires               :Nil
+            
+                           <br>Contract option                :Option for a further</p></div> </td>
+			                <td style="width:72px"  valign="top"><div class="shadowbox"><P class="ph"><h1>position</h1></p>
+                                <p class="pc">Sample text. Click to select the text box. Click again or double click to start editing the text.</p></div></td>
+		                </tr>
+		                <tr>
+			                <td style="width:71px"><div class="shadowbox"><P class="ph"><h1>talent</h1></p>
+                                <p class="pc">I am good in Center Mid and my passing and coordination skills are very good.</p></div></td>
+			                <td style="width:72px"><div class="shadowbox"><P class="ph"><h1>international experience</h1></p>
+                                <p class="pc">Sample text. Click to select the text box. Click again or double click to start editing the text.</p></div></td>
+		                </tr>
+		                <tr>
+			                <td style="width:71px"><div class="shadowbox"><P class="ph"><h1>potential</h1></p>
+                                <p class="pc">Sample text. Click to select the text box. Click again or double click to start editing the text.</p></div></td>
+			                <td style="width:72px"><div class="shadowbox"><P class="ph"><h1>technical performance</h1></p>
+                                <p class="pc">Sample text. Click to select the text box. Click again or double click to start editing the text.</p></div></td>
+		                </tr>
+	                </tbody>
+                </table>
+                </div>
+            </div>
+            <div  class="col-md-2"></div>
+            <div  class="col-md-2"></div>
+            <div class="col-md-8"><p class="quoteheading">What Coach and public says</p></div>
+            <div class="col-md-4">
+                <div class="quote-wrapper  shadowboxpquote">
+                    <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
+                    <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                    <footer><P class="ph"><h1>– Alex Matthew FPYC Coach –</h1></p></footer>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="quote-wrapper  shadowboxpquote">
+                    <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
+                    <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                    <footer><P class="ph"><h1>– Russ Hall FPYC Coach –</h1></p></footer>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="quote-wrapper  shadowboxpquote">
+                    <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
+                    <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
+                    <footer><P class="ph"><h1>– Judith Justin
+                    Parents –</h1></p></footer>
+                </div>
+            </div>
+            </div>
+        </div>`
     });
     const myEducation = Vue.component('myEducation', {
         data: () => { return {} },
