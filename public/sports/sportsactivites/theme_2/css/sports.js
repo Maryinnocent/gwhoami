@@ -31,13 +31,10 @@
             </div>
             <div class="col-md-6">
             </div>
-            <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My Sports
-                </h3>
-            </div>
-            <div class="col-md-12"><h3 class="seconheader" data-aos="fade-right">My favorite play is Soccer
-                </h3>
-            </div>
-            <div class="col-md-4">
+            <div data-aos="fade-right" class="col-md-12"><p class="GalleryPhead">My Sports</p></div>
+            <div data-aos="fade-left" class="col-md-12"><p class="GalleryPhead">My favorite play is Soccer</p></div>
+            
+            <div  data-aos="fade-top" class="col-md-4">
                 <div class="profileinfo" data-aos="fade-up-right">
                     <div class="d-flex"><span class="mydtl">Date of Birth :</span><span>{{moment(info.dob).format('DD-MMMM-YYYY')}}</span></div>
                     <div class="d-flex"><span class="mydtl">Address :</span><span>{{info.address}}</span></div>
@@ -57,8 +54,8 @@
                     <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
                 </video>
             </div>
-            <div class="col-md-12"><p class="GalleryPhead"></p></div>
-            <div class="col-md-12">
+            <div  data-aos="fade-right" class="col-md-12"><p class="GalleryPhead"></p></div>
+            <div  data-aos="fade-left" class="col-md-12">
                 <table class="table"  data-aos="fade-right">
                     <thead  class="thirdheader">
                         <tr>
@@ -135,7 +132,7 @@
             </div>
             <div class="col-md-12"><p class="GalleryPhead">Image Gallery</p></div>
             
-            <div class="col-md-12">
+            <div  data-aos="fade-bottom" class="col-md-12">
                 <div class="CSSgal">
                     <!-- Don't wrap targets in parent -->
                     <s id="s1"></s> 
@@ -167,7 +164,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12"><p class="GalleryPhead">Gallery Video</p></div>
+            <div  data-aos="fade-right" class="col-md-12"><p class="GalleryPhead">Video Gallery</p></div>
             <div class="col-md-3">
                 <video width="300" height="300"  controls>
                     <source src="./video/file_example_MP4_480_1_5MG.mp4" type="video/mp4">
@@ -219,7 +216,7 @@
             </table>
         </div>
         <div  class="col-md-12"><p class="quoteheadingsub">I am working on Volunteering, Playing in League games, Domestic and International Games</p></div>
-            <div class="col-md-12">
+            <div  data-aos="fade-left" class="col-md-12">
             <div>
                 <table cellpadding="5" cellspacing="6" style="width:100%">
 	                <tbody>
@@ -271,7 +268,7 @@
                 </table>
                 </div>
             </div>
-            <div  class="col-md-12">
+            <div  data-aos="fade-top"  class="col-md-12">
                 <table>
 	                <tbody>
 		                <tr>
@@ -282,7 +279,7 @@
                 </table>
             </div>
             
-            <div class="col-md-4">
+            <div  data-aos="fade-down" class="col-md-4">
                 <div class="quote-wrapper  shadowboxpquote">
                     <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
                     <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
@@ -290,14 +287,14 @@
                 </div>
             </div>
             
-            <div class="col-md-4">
+            <div  data-aos="fade-up" class="col-md-4">
                 <div class="quote-wrapper  shadowboxpquote">
                     <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
                     <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
                     <footer><P class="ph"><h1>– Russ Hall FPYC Coach –</h1></p></footer>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div data-aos="fade-up-right" class="col-md-4">
                 <div class="quote-wrapper  shadowboxpquote">
                     <p class="pquote">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
                     <div  data-aos="zoom-in-left" class="bg-profilequote" :style="{backgroundImage: 'url('+info.bg+')'}"></div>
