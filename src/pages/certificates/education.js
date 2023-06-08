@@ -20,7 +20,6 @@ const EducationPanel = React.memo(({ educationAddedList, pageData, ui, uiRefresh
         uiRefresh(Date.now());
         setTimeout(() => scrollRef.current.scrollToBottom(), 200);
     }
-
     return (
         <div className="w-full">
             <AlertDialog ref={alertRef} title={"Confirm to Delete?"} />

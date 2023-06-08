@@ -477,195 +477,68 @@ const EducationForm = React.memo(
           ></i>
           <div className="pt-5 pb-3">
             <form>
-              <div className="flex w-full justify-start items-center relative">
+  <div className="flex w-full justify-start items-center relative">
+     <div className="w-1/3 mr-5">
+                  <InputSelect
+                    styleClass="flex flex-col mb-4"
+                    formKey="certificateName"
+                    ID="certificateName"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="Name of the Certificate"
+                    placeholder="--Select--"
+                    options={formList.certificateName}
+                    required="Name of the Certificate is required"
+                  />
+                </div>
+                   <div className="w-1/3 mr-5">
+                  <GroupInput
+                    styleClass="flex flex-col mb-4"
+                    formKey="personName"
+                    formRef={formRef}
+                    uiRefresh={ui}
+                    label="Name Of the Person"
+                    placeholder="Name Of the Person"
+                    required="Name Of the Person is required"
+                    icon={faUser}
+                  />
+                </div>       
+
                 <div className="w-1/3 mr-5">
                   <InputSelect
                     styleClass="flex flex-col mb-4"
-                    formKey="cdplanType"
-                    ID="cdplanType"
+                    formKey="orgName"
+                    ID="orgName"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="CD Plan Type"
+                    label="Name of the Organization"
                     placeholder="--Select--"
-                    options={formList.cdplanType}
-                    required="CD Plan Type is required"
+                    options={formList.orgName}
+                    required="Name of the Organization is required"
                   />
                 </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="firstName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Kids FirstName"
-                    placeholder="Kids First Name"
-                    required="Kids First Name is required"
-                    icon={faUser}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="lastName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Kids Last Name"
-                    placeholder="Kids Last Name"
-                    icon={faUser}
-                  />
-                </div>
-              </div>
 
-              <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="bankName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Bank Name"
-                    placeholder="Bank Name"
-                    required="Bank Name is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="accountNumber"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Account-Number #"
-                    placeholder="Account-Number #"
-                    required="Account-Number is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <DatePicker
-                    styleClass="flex flex-col mb-4"
-                    formKey="createdOn"
-                    ID="createdOn"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Created On"
-                    placeholder="Created On"
-                    required="Created On is required"
-                    // callback={dobCallback}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <DatePicker
-                    styleClass="flex flex-col mb-4"
-                    formKey="year"
-                    ID="year"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Year"
-                    placeholder="Year"
-                    required="Year is required"
-                    // callback={dobCallback}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="totalAmount"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Total Amount $"
-                    placeholder="Total Amount $"
-                    required="Total Amount $ is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="interestRate"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Interest Rate %"
-                    placeholder="Interest Rate %"
-                    required="Interest Rate % is required"
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="address"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Location/Address"
-                    placeholder="Location/Adress"
-                    required="Location/Address is required"
-                    icon={faAddressCard}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="county"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="County"
-                    placeholder="County"
-                    required="County is required"
-                    icon={faTreeCity}
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="city"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="City"
-                    placeholder="City"
-                    required="City is required"
-                    icon={faCity}
-                  />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
-                <div className="w-1/3 mr-5">
-                  <label>Country</label>
-                  <ReactFlagsSelect
-                    className={`w-full rounded border ${
-                      !formRef.current.country
-                        ? 'border-red-500 err-input'
-                        : 'border-gray-400'
-                    }`}
-                    selected={formRef.current.country}
-                    onSelect={(code) => countryCallback(code, formRef.current)}
-                    countries={['US', 'IN']}
-                    placeholder="Country"
-                  />
-                </div>
-                <div className="w-1/3 mr-5">
-                  <label>State</label>
-                  <select
-                    className={`border w-full p-2 rounded ${
-                      !formRef.current.state
-                        ? 'border-red-500 err-input'
-                        : 'border-gray-400'
-                    }`}
-                    defaultValue={formRef.current.state}
-                    onChange={(e) => {
-                      formRef.current.state = e.currentTarget.value;
-                      subRefresh(Date.now());
-                    }}
-                  >
-                    <option value="">-- Select State --</option>
-                    {stateList(formRef.current.country).map((itm, idx) => (
-                      <option key={idx} value={itm.key || itm}>
-                        {itm.name || itm}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="w-1/3 mr-5">
+</div>                          
+                           
+                        <div className="flex w-full justify-start items-center mt-3">
+                            <div className="w-1/3 mr-5">
+                                <label>Country</label>
+                                <ReactFlagsSelect
+                                    className={`w-full rounded border ${!formRef.current.country ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    selected={formRef.current.country}
+                                    onSelect={(code) => countryCallback(code, formRef.current)}
+                                    countries={["US", "IN"]}
+                                    placeholder="Country"
+                                />
+                            </div>
+                            <div className="w-1/3 mr-5">
+                                <label>State</label>
+                                <select className={`border w-full p-2 rounded ${!formRef.current.state ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.state} onChange={e => { formRef.current.state = e.currentTarget.value; subRefresh(Date.now()) }}>
+                                    <option value=""></option>
+                                    {stateList(formRef.current.country).map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
+                                </select>
+                            </div>
+                            <div className="w-1/3 mr-5">
                   <GroupInput
                     styleClass="flex flex-col mb-4"
                     formKey="zipCode"
@@ -677,62 +550,126 @@ const EducationForm = React.memo(
                     icon={faMapPin}
                   />
                 </div>
-              </div>
-
-              <div className="flex w-full justify-start items-center relative">
-                <div className="w-1/3 mr-5">
-                  <InputRadio
+                        </div>
+                        <div className="flex w-full justify-start items-center relative">
+                            <div className="w-1/3 mr-5">
+                            <label>Certificate issued date</label>
+                                <Datetime
+                                    className={`w-full rounded ${!formRef.current.issuedOn ? 'invalidyear' : ''}`}
+                                    placeholder="MM/DD/YYYY"
+                                    dateFormat="MM/DD/YYYY"
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                    inputProps={inputProps}
+                                    value={formRef.current.issuedOn ? new Date(formRef.current.issuedOn) : ''}
+                                    onChange={date => { formRef.current.issuedOn = date; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/3 mr-5">
+                            <label>Certificate Expiration Date</label>
+                                <Datetime
+                                    className={`w-full rounded ${!formRef.current.expirationOn ? 'invalidyear' : ''}`}
+                                    placeholder="MM/DD/YYYY"
+                                    dateFormat="MM/DD/YYYY"
+                                    closeOnSelect={true}
+                                    timeFormat={false}
+                                    inputProps={inputProps}
+                                    value={formRef.current.expirationOn ? new Date(formRef.current.expirationOn) : ''}
+                                    onChange={date => { formRef.current.expirationOn = date; subRefresh(Date.now()); }}
+                                />
+                            </div>
+                            <div className="w-1/3">
+                            <label>Certificate Status</label>
+                                <select
+                                    className={`border w-full p-2 rounded ${!formRef.current.certifStatus ? 'border-red-500 err-input' : 'border-gray-400'}`} defaultValue={formRef.current.certifStatus} onChange={e => { formRef.current.certifStatus = e.currentTarget.value; subRefresh(Date.now()) }}>
+                                    <option value=""></option>
+                                    {formList.certifStatus.map((itm, idx) => <option key={idx} value={itm.key || itm}>{itm.name || itm}</option>)}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex w-full justify-start items-center mt-3">
+                            <div className="w-1/3 mr-5">
+                            <InputRadio 
+                                styleClass="flex flex-col mb-3" 
+                                formKey="optRenewal" 
+                                formRef={regRef} 
+                                ui={ui} 
+                                name="optRenewal" 
+                                label="Is this certificate renewal required?" 
+                                values={['Yes', 'No']} 
+                                required="Yes/No is required" 
+                            />
+                            </div>
+                            <div className="w-1/3 mr-5">
+                            
+                            </div>
+                            <div className="w-1/3">
+                            
+                                                       </div>
+                        </div>
+                        <div className="flex w-full justify-start items-center relative">
+                        <div className="w-1/3 mr-5">
+                  <GroupInput
                     styleClass="flex flex-col mb-4"
-                    formKey="primaryAccount"
+                    formKey="eligibleRenewal"
                     formRef={formRef}
-                    ui={ui}
-                    name="primaryAccount"
-                    label="Are you a Primary Responsible for this account?"
-                    values={['Yes', 'No']}
-                    required="Yes /No  is required"
+                    uiRefresh={ui}
+                    label="Eligible renewal"
+                    placeholder="Eligible renewal"
+                    required="Eligible renewal is required"
+                    icon={faUser}
                   />
                 </div>
-                <div className="w-1/3 mr-5"></div>
-
                 <div className="w-1/3 mr-5">
-                  <InputRadio
+                        <InputSelect
                     styleClass="flex flex-col mb-4"
-                    formKey="joinAccount"
+                    formKey="eligibleType"
+                    ID="eligibleType"
                     formRef={formRef}
-                    ui={ui}
-                    name="joinAccount"
-                    label="Is this joint account?"
-                    values={['Yes', 'No']}
-                    required="Yes /No  is required"
+                    uiRefresh={ui}
+                    label="Notification Type"
+                    placeholder="--Select--"
+                    options={formList.eligibleType}
+                    required="Notification Type is required"
                   />
-                </div>
-              </div>
-              <div className="flex w-full justify-start items-center mt-3">
+               
+                </div>     
+                           
                 <div className="w-1/3 mr-5">
                   <GroupInput
                     styleClass="flex flex-col mb-4"
-                    formKey="responsible"
-                    ID="responsible"
+                    formKey="phoneMail"
                     formRef={formRef}
                     uiRefresh={ui}
-                    label="Who is responsible after you?"
-                    placeholder="Who is responsible after you?"
+                    label="Phone / Email"
+                    placeholder="Phone / Email"
+                    required="Phone / Email is required"
+                    icon={faUser}
                   />
-                </div>
+                </div>        
+                     </div>
+                        <div className="flex w-full justify-start items-center mt-3">
+                        <h4>.   Personal Certificates(Birth,marriage, Adhar,SSN)<br></br>
+                            .   Religious Certificates(All the Sacraments)<br></br>
+                            .   Identity Certificates(Licences, Passports)<br></br>
+                            .   Education Certificates<br></br>
+                            .   Volunteering / Honorable Certificates<br></br>
+                        </h4>
+                        </div>
 
-                <div className="w-1/3 mr-5">
-                  <GroupInput
-                    styleClass="flex flex-col mb-4"
-                    formKey="legalName"
-                    formRef={formRef}
-                    uiRefresh={ui}
-                    label="Full Legal Name"
-                    placeholder="Full Legal Name"
-                    required="Full Legal Name is required"
-                  />
-                </div>
-                <div className="w-1/3 mr-5"></div>
-              </div>
+                        <div className="flex w-full justify-start items-center mt-3">
+                            <div className="flex flex-col w-full">
+                                <label>Comments</label>
+                                <textarea
+                                    className={`w-full rounded border ${!formRef.current.educationComments ? 'border-red-500 err-input' : 'border-gray-400'}`}
+                                    value={formRef.current.educationComments}
+                                    onChange={e => { formRef.current.educationComments = e.currentTarget.value; subRefresh(Date.now()); }}
+                                    rows={4}
+                                >
+                                </textarea>
+                            </div>
+                        </div>
+
 
               <div className="flex justify-between items-end mt-3">
                 <div className="flex">
